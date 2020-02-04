@@ -38,7 +38,7 @@ end
 	unit.rooted = eUnit:IsRooted()
 	unit.name = eUnit:GetName()
 	unit.team = eUnit:GetTeamNumber()
-	unit.attackRange = eUnit:GetAttackRange()	
+	-- unit.attackRange = eUnit:GetAttackRange()
 	
 	if eUnit:IsHero() then
 		unit.gold = eUnit:GetGold()
