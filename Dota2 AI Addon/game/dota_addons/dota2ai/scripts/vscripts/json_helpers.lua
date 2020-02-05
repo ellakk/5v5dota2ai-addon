@@ -38,7 +38,7 @@ end
 	unit.rooted = eUnit:IsRooted()
 	unit.name = eUnit:GetName()
 	unit.team = eUnit:GetTeamNumber()
-	-- unit.attackRange = eUnit:GetAttackRange()
+	unit.attackRange = eUnit:Script_GetAttackRange()
 	
 	if eUnit:IsHero() then
 		unit.gold = eUnit:GetGold()
@@ -184,5 +184,3 @@ end
  function VectorToArray(v)
 	return {v.x, v.y, v.z}
  end
- 
- 
