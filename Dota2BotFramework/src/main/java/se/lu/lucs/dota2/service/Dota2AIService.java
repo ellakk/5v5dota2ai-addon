@@ -76,6 +76,7 @@ public class Dota2AIService extends NanoHTTPD {
         listeners = new HashSet<>();
 
         LOGGER.fine( "Dota2AIService created" );
+        System.out.println( "Dota2 ai service created" );
 
     }
 
