@@ -5,6 +5,9 @@ end
 ------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Required .lua files, which just exist to help organize functions contained in our addon.  Make sure to call these beneath the mode's class creation.
 ------------------------------------------------------------------------------------------------------------------------------------------------------
+-- This library allow for easily delayed/timed actions
+require('libraries/timers')
+
 require("json_helpers")
 require("hero_tools")
 require("utility_functions")
