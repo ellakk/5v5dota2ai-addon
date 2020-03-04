@@ -15,31 +15,9 @@ local function BitAND(a, b) --Bitwise and
     return c
 end
 
-function Dota2AI:ParseHeroLevelUp(eHero, reply)
-    local result = package.loaded["game/dkjson"].decode(reply)
-    local abilityPoints = eHero:GetAbilityPoints()
-    if abilityPoints <= 0 then
-        Warning(eHero:GetName() .. " has no ability points. Why am I levelling up?")
-        return
-    end
-
-    local abilityIndex = result.abilityIndex
-
-    if abilityIndex > -1 then --a bot may send -1 to delay the level up
-        local ability = eHero:GetAbilityByIndex(abilityIndex)
-        if ability:GetLevel() == ability:GetMaxLevel() then
-            Warning(eHero:GetName() .. ": " .. ability:GetName() .. " is maxed out")
-            return
-        end
-        ability:UpgradeAbility(false)
-        eHero:SetAbilityPoints(abilityPoints - 1) --UpgradeAbility doesn't decrease the ability points
-        Say(nil, eHero:GetName() .. " levelled up ability " .. abilityIndex, false)
-    end
-end
-
 -- Main entry function --
-function Dota2AI:ParseHeroCommand(eHero, reply)
-    local result = package.loaded["game/dkjson"].decode(reply)
+function Dota2AI:ParseHeroCommand(eHero, result)
+    -- local result = package.loaded["game/dkjson"].decode(reply)
     local command = result.command
 
     --TODO deal with abilities that the hero can interrupt
@@ -52,6 +30,8 @@ function Dota2AI:ParseHeroCommand(eHero, reply)
 
     if command == "MOVE" then
         self:MoveTo(eHero, result)
+    elseif command == "LEVELUP" then
+        self:LevelUp(eHero, result)
     elseif command == "ATTACK" then
         self:Attack(eHero, result)
     elseif command == "CAST" then
@@ -155,6 +135,25 @@ end
 function Dota2AI:MoveTo(eHero, result)
     eHero:MoveToPosition(Vector(result.x, result.y, result.z))
     Say(nil, eHero:GetName() .. " moving to " .. result.x .. ", " .. result.y .. ", " .. result.z, false)
+end
+
+function Dota2AI:LevelUp(eHero, result)
+    local abilityPoints = eHero:GetAbilityPoints()
+    if abilityPoints <= 0 then
+        Warning(eHero:GetName() .. " has no ability points. Why am I levelling up?")
+        return
+    end
+
+    local abilityIndex = result.abilityIndex
+
+    local ability = eHero:GetAbilityByIndex(abilityIndex)
+    if ability:GetLevel() == ability:GetMaxLevel() then
+        Warning(eHero:GetName() .. ": " .. ability:GetName() .. " is maxed out")
+        return
+    end
+    ability:UpgradeAbility(false)
+    eHero:SetAbilityPoints(abilityPoints - 1) --UpgradeAbility doesn't decrease the ability points
+    Say(nil, eHero:GetName() .. " levelled up ability " .. abilityIndex, false)
 end
 
 function Dota2AI:Attack(eHero, result)

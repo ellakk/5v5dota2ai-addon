@@ -37,6 +37,7 @@ function Dota2AI:JSONunit(eUnit)
     unit.name = eUnit:GetName()
     unit.team = eUnit:GetTeamNumber()
     unit.attackRange = eUnit:Script_GetAttackRange()
+    unit.abilityPoints = eUnit:GetAbilityPoints()
 
     if eUnit:IsHero() then
         unit.gold = eUnit:GetGold()
@@ -175,9 +176,63 @@ function Dota2AI:JSONWorld(eHero)
         world.entities[unit:entindex()] = self:JSONunit(unit)
     end
 
-    return package.loaded["game/dkjson"].encode(world)
+    return world
 end
 
 function VectorToArray(v)
     return {v.x, v.y, v.z}
+end
+
+function Dota2AI:JSONGetGoodGuys(eHero)
+    local heroes = Dota2AI:GetGoodGuys(eHero)
+    local jsonHeroes = {}
+    for i, hero in pairs(heroes) do
+        jsonHeroes[i] = Dota2AI:JSONunit(hero)
+    end
+    return jsonHeroes
+end
+
+function Dota2AI:GetGoodGuy(eHero, who)
+    local heroes = Dota2AI:GetGoodGuys(eHero)
+    for i, hero in pairs(heroes) do
+        if hero:GetName() == who then
+            return hero
+        end
+    end
+end
+
+
+function Dota2AI:GetGoodGuys(eHero)
+    local heroes = {}
+
+    local allUnits =
+        FindUnitsInRadius(
+        eHero:GetTeamNumber(),
+        eHero:GetOrigin(),
+        nil,
+        FIND_UNITS_EVERYWHERE,
+        DOTA_UNIT_TARGET_TEAM_BOTH,
+        DOTA_UNIT_TARGET_ALL,
+        DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE,
+        FIND_ANY_ORDER,
+        true
+    )
+
+    for _, unit in pairs(allUnits) do
+        if unit:IsHero() and (unit:GetTeamNumber() == 2) then
+            -- print("--")
+            -- print("unit name is: " .. unit:GetName())
+            -- print("--")
+            -- unit:SetContextThink(
+            --     "Dota2AI:BotThinking",
+            --     function()
+            --         return Dota2AI:BotThinking(unit)
+            --     end,
+            --     0.33
+            -- )
+            table.insert(heroes, unit)
+        end
+    end
+
+    return heroes
 end

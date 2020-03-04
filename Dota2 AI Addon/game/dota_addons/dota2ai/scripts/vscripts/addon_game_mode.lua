@@ -12,6 +12,7 @@ require("json_helpers")
 require("hero_tools")
 require("utility_functions")
 require("events")
+require("kalleodennis")
 
 --------------------------------------------------------------------------------
 -- ACTIVATE
