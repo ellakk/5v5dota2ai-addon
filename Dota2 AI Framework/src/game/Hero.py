@@ -3,7 +3,7 @@ from src.game.BaseNPC import BaseNPC
 
 
 class Hero(BaseNPC):
-    def __init__(self, name, data, world):
+    def __init__(self, data):
         self.commands = [
             "ATTACK",
             "MOVE",

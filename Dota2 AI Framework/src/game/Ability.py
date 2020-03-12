@@ -5,7 +5,7 @@ from src.game.BaseEntity import BaseEntity
 
 class Ability(BaseEntity):
     def __init__(self, data):
-        super(data)
+        super().__init__(data)
 
     def getAbilityDamage(self):
         return self.data["abilityDamage"]

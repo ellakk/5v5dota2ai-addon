@@ -5,6 +5,9 @@ class BaseEntity:
     def __init__(self, data):
         self.data = data
 
+    def setData(self, data):
+        self.data = data
+
     def getHealth(self):
         return self.data["health"]
 

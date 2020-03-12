@@ -4,7 +4,7 @@ from src.game.BaseEntity import BaseEntity
 
 class BaseNPC(BaseEntity):
     def __init__(self, data):
-        super(data)
+        super().__init__(data)
 
     def getAbilities(self):
         return self.data["abilities"]
