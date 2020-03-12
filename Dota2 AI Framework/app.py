@@ -42,7 +42,7 @@ def party():
 
 
 @post("/api/register_heroes")
-def registerHeroes():
+def register_heroes():
     postdata = request.body.read()
 
     print(postdata)
@@ -61,9 +61,9 @@ def update():
     post_data = request.body.read()
     world = json.loads(post_data)
 
-    framework.Update(world)
-    framework.GenerateBotCommands()
-    commands = framework.ReceiveBotCommands()
+    framework.update(world)
+    framework.generate_bot_commands()
+    commands = framework.receive_bot_commands()
 
     return json.dumps(commands)
 
