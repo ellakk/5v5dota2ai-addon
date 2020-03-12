@@ -6,17 +6,17 @@ class BotExample:
         pass
 
     def actions(self, hero):
-        if hero.name == "npc_dota_hero_lina":
+        if hero.getName() == "npc_dota_hero_lina":
             hero.move(-5549.1870117188, 5351.6669921875, 256)
 
-        if hero.name == "npc_dota_hero_ursa":
+        if hero.getName() == "npc_dota_hero_ursa":
             hero.move(-5549.1870117188, 5351.6669921875, 256)
 
-        if hero.name == "npc_dota_hero_sven":
+        if hero.getName() == "npc_dota_hero_sven":
             hero.move(-5549.1870117188, 5351.6669921875, 256)
 
-        if hero.name == "npc_dota_hero_pudge":
+        if hero.getName() == "npc_dota_hero_pudge":
             hero.move(-5549.1870117188, 5351.6669921875, 256)
 
-        if hero.name == "npc_dota_hero_mars":
+        if hero.getName() == "npc_dota_hero_mars":
             hero.move(-5549.1870117188, 5351.6669921875, 256)
