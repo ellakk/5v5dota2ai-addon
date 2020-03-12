@@ -17,6 +17,15 @@ class PlayerHero(Hero):
             "NOOP",
         ]
         self.command = None
+        self.commands = []
+
+    def get_command(self):
+        return self.command
+
+    def clear_and_archive_command(self):
+        if self.command:
+            self.commands.append(self.command)
+            self.command = None
 
     def attack(self, target):
         self.command = {self.getName(): {"command": "ATTACK", "target": target}}
@@ -33,10 +42,10 @@ class PlayerHero(Hero):
     def sell(self, slot):
         self.command = {self.getName(): {"command": "SELL", "slot": slot}}
 
-    def useItem(self, slot):
+    def use_item(self, slot):
         self.command = {self.getName(): {"command": "USE_ITEM", "slot": slot}}
 
-    def levelUp(self, abilityIndex):
+    def level_up(self, abilityIndex):
         self.command = {
             self.getName(): {"command": "LEVELUP", "abilityIndex": abilityIndex}
         }
