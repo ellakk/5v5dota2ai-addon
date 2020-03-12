@@ -40,3 +40,6 @@ class PlayerHero(Hero):
         self.command = {
             self.getName(): {"command": "LEVELUP", "abilityIndex": abilityIndex}
         }
+
+    def noop(self):
+        self.command = {self.getName(): {"command": "NOOP"}}
