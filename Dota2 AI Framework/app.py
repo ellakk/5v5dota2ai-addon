@@ -64,7 +64,7 @@ def update():
     framework.Update(world)
     framework.GenerateBotCommands()
     commands = framework.ReceiveBotCommands()
-    print(commands)
+
     return json.dumps(commands)
 
 
