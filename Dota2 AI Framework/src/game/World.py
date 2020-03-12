@@ -3,6 +3,7 @@ from src.game.BaseNPC import BaseNPC
 from src.game.Tower import Tower
 from src.game.Building import Building
 from src.game.Hero import Hero
+from src.game.PlayerHero import PlayerHero
 
 
 class World:
@@ -22,7 +23,9 @@ class World:
         self.entities = new_entities
 
     def create_entity_from_data(self, data):
-        if data["type"] == "Hero":
+        if data["type"] == "Hero" and data["team"] == 2:
+            return PlayerHero(data)
+        elif data["type"] == "Hero":
             return Hero(data)
         elif data["type"] == "Tower":
             return Tower(data)
