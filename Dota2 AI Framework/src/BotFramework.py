@@ -1,27 +1,23 @@
 #!/usr/bin/env python3
-from src.game.Hero import Hero
+from src.game.World import World
 from src.BotExample import BotExample
 
 
 class BotFramework:
     def __init__(self):
         self.agent = BotExample()
-        self.heroes = []
+        self.world = World()
 
     def Update(self, data):
-        self.heroes.clear()
-        print(data)
-        for hero in data["heroes"]:
-            self.heroes.append(Hero(hero['name'], hero, data['world']))
+        self.world.update(data["world"]["entities"])
 
     def GenerateBotCommands(self):
-        for hero in self.heroes:
+        for hero in self.world.get_player_heroes():
             self.agent.actions(hero)
 
     def ReceiveBotCommands(self):
         commands = {}
-
-        for hero in self.heroes:
+        for hero in self.world.get_player_heroes():
             if hero.command:
                 commands.update(hero.command)
         return commands

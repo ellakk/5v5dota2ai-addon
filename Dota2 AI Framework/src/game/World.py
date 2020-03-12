@@ -33,3 +33,10 @@ class World:
             return Building(data)
         elif data["type"] == "BaseNPC":
             return BaseNPC(data)
+
+    def get_player_heroes(self):
+        heroes = []
+        for entity in self.entities.values():
+            if isinstance(entity, PlayerHero):
+                heroes.append(entity)
+        return heroes
