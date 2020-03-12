@@ -4,26 +4,6 @@ from src.BotFramework import BotFramework
 
 framework = BotFramework()
 
-# resp = {
-#     "npc_dota_hero_lina": {
-#         "command": "MOVE",
-#         "x": -5549.1870117188,
-#         "y": 5351.6669921875,
-#         "z": 256,
-#     },
-#     "npc_dota_hero_ursa": {
-#         "command": "MOVE",
-#         "x": -5549.1870117188,
-#         "y": 5351.6669921875,
-#         "z": 256,
-#     },
-#     "npc_dota_hero_mars": {
-#         "command": "LEVELUP",
-#         "abilityIndex": 0,
-#     }
-# }
-# count = 1
-
 @get("/hello/<name>")
 def index(name):
     return template("<b>Hello {{name}}</b>!", name=name)
