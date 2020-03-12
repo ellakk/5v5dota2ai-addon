@@ -1,25 +1,28 @@
 import json
 from library.bottle.bottle import route, run, template, post, get, request
+from src.BotFramework import BotFramework
 
-resp = {
-    "npc_dota_hero_lina": {
-        "command": "MOVE",
-        "x": -5549.1870117188,
-        "y": 5351.6669921875,
-        "z": 256,
-    },
-    "npc_dota_hero_ursa": {
-        "command": "MOVE",
-        "x": -5549.1870117188,
-        "y": 5351.6669921875,
-        "z": 256,
-    },
-    "npc_dota_hero_mars": {
-        "command": "LEVELUP",
-        "abilityIndex": 0,
-    }
-}
-count = 1
+framework = BotFramework()
+
+# resp = {
+#     "npc_dota_hero_lina": {
+#         "command": "MOVE",
+#         "x": -5549.1870117188,
+#         "y": 5351.6669921875,
+#         "z": 256,
+#     },
+#     "npc_dota_hero_ursa": {
+#         "command": "MOVE",
+#         "x": -5549.1870117188,
+#         "y": 5351.6669921875,
+#         "z": 256,
+#     },
+#     "npc_dota_hero_mars": {
+#         "command": "LEVELUP",
+#         "abilityIndex": 0,
+#     }
+# }
+# count = 1
 
 @get("/hello/<name>")
 def index(name):
@@ -55,14 +58,14 @@ def chat():
 
 @post("/api/update")
 def update():
-    world = request.body.read()
-    global count
-    if count == 1:
-        f = open("demofile2.txt", "w")
-        f.write(world.decode("utf-8"))
-        f.close()
-        count = count + 1
-    return json.dumps(resp)
+    post_data = request.body.read()
+    world = json.loads(post_data)
+
+    framework.Update(world)
+    framework.GenerateBotCommands()
+    commands = framework.ReceiveBotCommands()
+    print(commands)
+    return json.dumps(commands)
 
 
 run(host="localhost", port=8080, debug=True, reloader=True)
