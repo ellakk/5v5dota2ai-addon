@@ -1,13 +1,11 @@
 #!/usr/bin/env python3
 from src.game.BaseEntity import BaseEntity
+from src.game.Ability import Ability
 
 
 class BaseNPC(BaseEntity):
     def __init__(self, data):
         super().__init__(data)
-
-    def getAbilities(self):
-        return self.data["abilities"]
 
     def getAttackRange(self):
         return self.data["attackRange"]

@@ -1,10 +1,22 @@
 #!/usr/bin/env python3
 from src.game.BaseNPC import BaseNPC
+from src.game.BaseNPC import Ability
 
 
 class Hero(BaseNPC):
     def __init__(self, data):
         super().__init__(data)
+        self.abilities = {}
+        self.__set_abilities()
+
+    def __set_abilities(self):
+        self.abilities.clear()
+        for i, data in self.data["abilities"].items():
+            self.abilities = Ability(data)
+
+    def setData(self, data):
+        super().setData(data)
+        self.__set_abilities()
 
     def getDeaths(self):
         return self.data["deaths"]
