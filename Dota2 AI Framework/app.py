@@ -11,21 +11,13 @@ def index(name):
 
 @get("/api/party")
 def party():
-    resp = [
-        "npc_dota_hero_lina",
-        "npc_dota_hero_ursa",
-        "npc_dota_hero_mars",
-        "npc_dota_hero_sven",
-        "npc_dota_hero_pudge",
-    ]
-    return json.dumps(resp)
+    return json.dumps(framework.get_party())
 
 
 @post("/api/register_heroes")
 def register_heroes():
     postdata = request.body.read()
 
-    print(postdata)
     return json.dumps("ok")
 
 @post("/api/chat")

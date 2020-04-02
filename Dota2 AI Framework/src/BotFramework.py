@@ -8,6 +8,9 @@ class BotFramework:
         self.agent = BotExample()
         self.world = World()
 
+    def get_party(self):
+        return self.agent.party
+
     def update(self, data):
         self.world.update(data["world"]["entities"])
 

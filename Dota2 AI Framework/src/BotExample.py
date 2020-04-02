@@ -3,7 +3,13 @@
 
 class BotExample:
     def __init__(self):
-        pass
+        self.party = [
+            "npc_dota_hero_lina",
+            "npc_dota_hero_ursa",
+            "npc_dota_hero_mars",
+            "npc_dota_hero_sven",
+            "npc_dota_hero_pudge",
+        ]
 
     def actions(self, hero):
         if hero.getName() == "npc_dota_hero_lina":
