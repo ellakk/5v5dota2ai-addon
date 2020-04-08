@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+import math
+
 from src.game.BaseNPC import BaseNPC
 from src.game.Tower import Tower
 from src.game.Building import Building
@@ -50,7 +52,7 @@ class World:
         x1, y1, z1 = entity1.getOrigin()
         x2, y2, z2 = entity2.getOrigin()
 
-        return ((x2 - x1) ^ 2) + ((y2 - y1) ^ 2)
+        return math.sqrt(((x2 - x1) ** 2) + ((y2 - y1) ** 2))
 
     def get_id(self, entity):
         for id, ent in self.entities:
