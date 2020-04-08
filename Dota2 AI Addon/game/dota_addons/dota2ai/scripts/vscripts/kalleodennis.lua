@@ -112,7 +112,8 @@ function Dota2AI:ParseActions(h, jsonresults)
         local hero = Dota2AI:GetGoodGuy(h, strhero)
         if hero == nil then
             Warning("Could not find hero with name: " .. strhero)
+        else
+            Dota2AI:ParseHeroCommand(hero, cmd)
         end
-        Dota2AI:ParseHeroCommand(hero, cmd)
     end
 end
