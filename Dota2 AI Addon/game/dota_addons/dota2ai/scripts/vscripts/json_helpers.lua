@@ -31,15 +31,15 @@ function Dota2AI:JSONunit(eUnit)
     unit.alive = eUnit:IsAlive()
     unit.blind = eUnit:IsBlind()
     unit.dominated = eUnit:IsDominated()
-    unit.deniable = eUnit:IsDeniable()
+    -- unit.deniable = eUnit:IsDeniable()
     unit.disarmed = eUnit:IsDisarmed()
     unit.rooted = eUnit:IsRooted()
     unit.name = eUnit:GetName()
     unit.team = eUnit:GetTeamNumber()
     unit.attackRange = eUnit:Script_GetAttackRange()
-    unit.abilityPoints = eUnit:GetAbilityPoints()
 
     if eUnit:IsHero() then
+        unit.abilityPoints = eUnit:GetAbilityPoints()
         unit.gold = eUnit:GetGold()
         unit.type = "Hero"
         unit.xp = eUnit:GetCurrentXP()
