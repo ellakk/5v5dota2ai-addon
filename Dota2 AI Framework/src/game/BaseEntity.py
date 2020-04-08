@@ -18,4 +18,4 @@ class BaseEntity:
         return self.data["name"]
 
     def getOrigin(self):
-        return self.data["orgin"]
+        return self.data["origin"]
