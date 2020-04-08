@@ -45,3 +45,26 @@ class World:
         for entity in self.entities.values():
             if entity.getName() == name:
                 return entity
+
+    def get_distance(entity1, entity2):
+        x1, y1, z1 = entity1.getOrigin()
+        x2, y2, z2 = entity2.getOrigin()
+
+        return ((x2 - x1) ^ 2) + ((y2 - y1) ^ 2)
+
+    def get_id(self, entity):
+        for id, ent in self.entities:
+            if entity == ent:
+                return id
+
+    def get_enemies_in_attack_range(self, entity):
+        enemies = []
+        for ent in self.entities:
+            if ent.getTeam() != entity.getTeam():
+                continue
+            if self.get_distance(entity, ent) > entity.getAttackRange():
+                continue
+            if ent.isAlive():
+                enemies.append(ent)
+
+        return enemies
