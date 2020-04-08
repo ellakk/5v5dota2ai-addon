@@ -5,22 +5,22 @@ from src.BotExample import BotExample
 
 class BotFramework:
     def __init__(self):
-        self.agent = BotExample()
         self.world = World()
+        self.agent = BotExample(self.world)
 
     def get_party(self):
         return self.agent.party
 
     def update(self, data):
-        self.world.update(data["world"]["entities"])
+        self.world._update(data["world"]["entities"])
 
     def generate_bot_commands(self):
-        for hero in self.world.get_player_heroes():
+        for hero in self.world._get_player_heroes():
             self.agent.actions(hero)
 
     def receive_bot_commands(self):
         commands = {}
-        for hero in self.world.get_player_heroes():
+        for hero in self.world._get_player_heroes():
             command = hero.get_command()
             if command:
                 commands.update(command)

@@ -10,7 +10,7 @@ class World:
     def __init__(self):
         self.entities = {}
 
-    def update(self, world):
+    def _update(self, world):
         new_entities = {}
         for eid, data in world.items():
             entity = None
@@ -18,11 +18,11 @@ class World:
                 entity = self.entities[eid]
                 entity.setData(data)
             else:
-                entity = self.create_entity_from_data(data)
+                entity = self._create_entity_from_data(data)
             new_entities[eid] = entity
         self.entities = new_entities
 
-    def create_entity_from_data(self, data):
+    def _create_entity_from_data(self, data):
         if data["type"] == "Hero" and data["team"] == 2:
             return PlayerHero(data)
         elif data["type"] == "Hero":
@@ -34,9 +34,14 @@ class World:
         elif data["type"] == "BaseNPC":
             return BaseNPC(data)
 
-    def get_player_heroes(self):
+    def _get_player_heroes(self):
         heroes = []
         for entity in self.entities.values():
             if isinstance(entity, PlayerHero):
                 heroes.append(entity)
         return heroes
+
+    def find_entity_by_name(self, name):
+        for entity in self.entities.values():
+            if entity.getName() == name:
+                return entity
