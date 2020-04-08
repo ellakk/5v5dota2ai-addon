@@ -10,9 +10,9 @@ class Hero(BaseNPC):
         self.__set_abilities()
 
     def __set_abilities(self):
-        self.abilities.clear()
+        self.abilities = {}
         for i, data in self.data["abilities"].items():
-            self.abilities = Ability(data)
+            self.abilities[i] = Ability(data)
 
     def setData(self, data):
         super().setData(data)
