@@ -68,3 +68,10 @@ class World:
                 enemies.append(ent)
 
         return enemies
+
+    def get_enemy_towers(self, entity):
+        towers = []
+
+        for entity in self.entities:
+            if isinstance(entity, Tower) and entity.getTeam() != entity.getTeam():
+                towers.append(entity)
