@@ -7,6 +7,7 @@ class BotFramework:
     def __init__(self):
         self.world = World()
         self.agent = BotExample(self.world)
+        self.initialized = False
 
     def get_party(self):
         return self.agent.party
@@ -15,8 +16,12 @@ class BotFramework:
         self.world._update(data["world"]["entities"])
 
     def generate_bot_commands(self):
-        for hero in self.world._get_player_heroes():
-            self.agent.actions(hero)
+        if self.initialized:
+            for hero in self.world._get_player_heroes():
+                self.agent.actions(hero)
+        else:
+            self.agent.initialize(self.world._get_player_heroes())
+            self.initialized = True
 
     def receive_bot_commands(self):
         commands = {}
