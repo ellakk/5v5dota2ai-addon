@@ -3,6 +3,7 @@ import math
 
 from src.game.BaseNPC import BaseNPC
 from src.game.Tower import Tower
+from src.game.Tree import Tree
 from src.game.Building import Building
 from src.game.Hero import Hero
 from src.game.PlayerHero import PlayerHero
@@ -77,3 +78,16 @@ class World:
         for entity in self.entities:
             if isinstance(entity, Tower) and entity.getTeam() != entity.getTeam():
                 towers.append(entity)
+
+    def get_friendly_creeps(self, entity):
+        creeps = []
+
+        for e in self.entities:
+            if isinstance(e, Building):
+                continue
+            if isinstance(e, Hero):
+                continue
+            if e.getTeam() == entity.getTeam():
+                creeps.append(e)
+
+        return creeps
