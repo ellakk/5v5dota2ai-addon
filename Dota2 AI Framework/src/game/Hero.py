@@ -18,6 +18,9 @@ class Hero(BaseNPC):
         super().setData(data)
         self.__set_abilities()
 
+    def getAbilityPoints(self):
+        return self.data["abilityPoints"]
+
     def getDeaths(self):
         return self.data["deaths"]
 
