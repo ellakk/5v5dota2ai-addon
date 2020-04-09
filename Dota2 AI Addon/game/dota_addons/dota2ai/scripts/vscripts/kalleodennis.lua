@@ -41,9 +41,15 @@ function Dota2AI:HeroSelection()
                         return 1.0
                     end
 
-                    for i = 1, TableLength(data) do
-                        Tutorial:AddBot(Dota2AI:GetRandomHero(), "mid", "easy", false)
-                    end
+                    Tutorial:AddBot(Dota2AI:GetRandomHero(), "mid", "easy", false)
+                    Tutorial:AddBot(Dota2AI:GetRandomHero(), "top", "easy", false)
+                    Tutorial:AddBot(Dota2AI:GetRandomHero(), "top", "easy", false)
+                    Tutorial:AddBot(Dota2AI:GetRandomHero(), "bot", "easy", false)
+                    Tutorial:AddBot(Dota2AI:GetRandomHero(), "bot", "easy", false)
+                    -- TODO: Make this dynamic again.....
+                    -- for i = 1, TableLength(data) do
+                    --     Tutorial:AddBot(Dota2AI:GetRandomHero(), "mid", "easy", false)
+                    -- end
                 end
             )
         end
