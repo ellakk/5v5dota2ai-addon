@@ -72,6 +72,18 @@ class World:
 
         return enemies
 
+    def get_enemies_in_range(self, entity, range):
+        enemies = []
+        for ent in self.entities.values():
+            if ent.getTeam() == entity.getTeam():
+                continue
+            if self.get_distance(entity, ent) > range:
+                continue
+            if ent.isAlive():
+                enemies.append(ent)
+
+        return enemies
+
     def get_enemy_towers(self, entity):
         towers = []
 
@@ -82,7 +94,7 @@ class World:
     def get_friendly_creeps(self, entity):
         creeps = []
 
-        for e in self.entities:
+        for e in self.entities.values():
             if isinstance(e, Building):
                 continue
             if isinstance(e, Hero):
