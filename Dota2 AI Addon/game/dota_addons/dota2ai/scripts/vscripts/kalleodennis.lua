@@ -26,9 +26,6 @@ function Dota2AI:HeroSelection()
                         endTime = Time() + 1,
                         callback = function()
                             PlayerResource:GetPlayer(playerID):SetSelectedHero(hero)
-                            if i > 1 then
-                                SendToServerConsole("kickid " .. i)
-                            end
                         end
                     }
                 )
@@ -41,15 +38,9 @@ function Dota2AI:HeroSelection()
                         return 1.0
                     end
 
-                    Tutorial:AddBot(Dota2AI:GetRandomHero(), "mid", "easy", false)
-                    Tutorial:AddBot(Dota2AI:GetRandomHero(), "top", "easy", false)
-                    Tutorial:AddBot(Dota2AI:GetRandomHero(), "top", "easy", false)
-                    Tutorial:AddBot(Dota2AI:GetRandomHero(), "bot", "easy", false)
-                    Tutorial:AddBot(Dota2AI:GetRandomHero(), "bot", "easy", false)
-                    -- TODO: Make this dynamic again.....
-                    -- for i = 1, TableLength(data) do
-                    --     Tutorial:AddBot(Dota2AI:GetRandomHero(), "mid", "easy", false)
-                    -- end
+                    for i = 1, TableLength(data) do
+                        Tutorial:AddBot(Dota2AI:GetRandomHero(), "mid", "easy", false)
+                    end
                 end
             )
         end
@@ -98,7 +89,6 @@ function Dota2AI:Update(hero)
     request:Send(
         function(result)
             if result["StatusCode"] == 200 then
-
                 Dota2AI:ParseActions(hero, result["Body"])
             else
                 Dota2AI.Error = true
