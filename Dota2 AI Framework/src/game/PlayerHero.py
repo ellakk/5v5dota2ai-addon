@@ -28,13 +28,35 @@ class PlayerHero(Hero):
             self.command = None
 
     def attack(self, target):
-        self.command = {self.getName(): {"command": "ATTACK", "target": target}}
+        self.command = {
+            self.getName(): {
+                "command": "ATTACK",
+                "target": target
+            }
+        }
 
     def move(self, x, y, z):
-        self.command = {self.getName(): {"command": "MOVE", "x": x, "y": y, "z": z}}
+        self.command = {
+            self.getName(): {
+                "command": "MOVE",
+                "x": x,
+                "y": y,
+                "z": z
+            }
+        }
 
-    def cast(self, ability):
-        self.command = {self.getName(): {"command": "CAST", "ability": ability}}
+    def cast(self, ability, target=-1, position=[-1, -1, -1]):
+        x, y, z = position
+        self.command = {
+            self.getName(): {
+                "command": "CAST",
+                "ability": ability,
+                "target": target,
+                "x": x,
+                "y": y,
+                "z": z
+            }
+        }
 
     def buy(self, item):
         self.command = {self.getName(): {"command": "BUY", "item": item}}
@@ -47,7 +69,10 @@ class PlayerHero(Hero):
 
     def level_up(self, abilityIndex):
         self.command = {
-            self.getName(): {"command": "LEVELUP", "abilityIndex": abilityIndex}
+            self.getName(): {
+                "command": "LEVELUP",
+                "abilityIndex": abilityIndex
+            }
         }
 
     def noop(self):
