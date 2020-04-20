@@ -83,7 +83,8 @@ class BotExample:
         for ability in hero.getAbilities().values():
             if ability.getLevel() < 1:
                 continue
-            if ability.getAbilityDamageType() == ability.DOTA_ABILITY_BEHAVIOR_POINT:
+            if ability.getAbilityDamageType(
+            ) == ability.DOTA_ABILITY_BEHAVIOR_POINT:
                 continue
             if ability.getCooldownTimeRemaining() > 0:
                 continue

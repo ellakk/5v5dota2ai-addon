@@ -1,24 +1,14 @@
 import json
-from library.bottle.bottle import route, run, template, post, get, request
+from library.bottle.bottle import run, post, get, request
 from src.BotFramework import BotFramework
 
 framework = BotFramework()
-
-@get("/hello/<name>")
-def index(name):
-    return template("<b>Hello {{name}}</b>!", name=name)
 
 
 @get("/api/party")
 def party():
     return json.dumps(framework.get_party())
 
-
-@post("/api/register_heroes")
-def register_heroes():
-    postdata = request.body.read()
-
-    return json.dumps("ok")
 
 @post("/api/chat")
 def chat():
