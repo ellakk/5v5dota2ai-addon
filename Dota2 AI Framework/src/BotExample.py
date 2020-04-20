@@ -2,7 +2,6 @@
 
 import random
 from src.game.Building import Building
-from src.game.Tower import Tower
 
 
 class BotExample:
