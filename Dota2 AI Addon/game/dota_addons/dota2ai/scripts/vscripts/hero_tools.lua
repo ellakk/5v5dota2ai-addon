@@ -181,18 +181,18 @@ function Dota2AI:UseAbility(eHero, eAbility)
         eAbility:StartCooldown(eAbility:GetCooldown(level))
         eAbility:PayManaCost()
         eAbility:OnSpellStart()
-        local behaviour = eAbility:GetBehavior()
+        local behavior = eAbility:GetBehavior()
         --There is some logic missing here to check for range and make the hero face the right direction
-        if (BitAND(behaviour, DOTA_ABILITY_BEHAVIOR_NO_TARGET)) then
+        if (BitAND(behavior, DOTA_ABILITY_BEHAVIOR_NO_TARGET)) then
             Say(nil, eHero:GetName() .. " casting " .. eAbility:GetName(), false)
             eHero:CastAbilityNoTarget(eAbility, player)
-        elseif (BitAND(behaviour, DOTA_ABILITY_BEHAVIOR_UNIT_TARGET)) then
+        elseif (BitAND(behavior, DOTA_ABILITY_BEHAVIOR_UNIT_TARGET)) then
             local target = EntIndexToHScript(result.target)
             if target:IsAlive() then
                 Say(nil, eHero:GetName() .. " casting " .. eAbility:GetName() .. " on unit " .. target:GetName(), false)
                 eHero:CastAbilityOnTarget(target, eAbility, player)
             end
-        elseif (BitAND(behaviour, DOTA_ABILITY_BEHAVIOR_POINT)) then
+        elseif (BitAND(behavior, DOTA_ABILITY_BEHAVIOR_POINT)) then
             Say(
                 nil,
                 eHero:GetName() ..
@@ -201,7 +201,7 @@ function Dota2AI:UseAbility(eHero, eAbility)
             )
             eHero:CastAbilityOnPosition(Vector(result.x, result.y, result.z), eAbility, player)
         else
-            Warning(eHero:GetName() .. " sent invalid cast command " .. behaviour)
+            Warning(eHero:GetName() .. " sent invalid cast command " .. behavior)
             self._Error = true
         end
     end
