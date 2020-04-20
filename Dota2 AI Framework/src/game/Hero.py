@@ -21,6 +21,9 @@ class Hero(BaseNPC):
     def getAbilityPoints(self):
         return self.data["abilityPoints"]
 
+    def getAbilities(self):
+        return self.abilities
+
     def getDeaths(self):
         return self.data["deaths"]
 
