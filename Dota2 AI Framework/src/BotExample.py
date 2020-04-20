@@ -51,6 +51,10 @@ class BotExample:
         return False
 
     def attack_building_if_in_range(self, hero):
+        if bool(random.getrandbits(1)):
+            self.use_ability_on_enemy(hero)
+            if hero.command:
+                return True
         enemies = self.world.get_enemies_in_range(hero, 700)
         enemies = [e for e in enemies if isinstance(e, Building)]
         if enemies:
@@ -60,6 +64,11 @@ class BotExample:
         return False
 
     def attack_unit_if_in_range(self, hero):
+        if bool(random.getrandbits(1)):
+            self.use_ability_on_enemy(hero)
+            if hero.command:
+                return True
+
         enemies = self.world.get_enemies_in_range(hero, 500)
         enemies = [e for e in enemies if not isinstance(e, Building)]
         if enemies:
@@ -68,9 +77,40 @@ class BotExample:
             return True
         return False
 
+    def use_ability_on_enemy(self, hero):
+        abilities = []
+
+        for ability in hero.getAbilities().values():
+            if ability.getLevel() < 1:
+                continue
+            if ability.getAbilityDamageType() == ability.DOTA_ABILITY_BEHAVIOR_POINT:
+                continue
+            if ability.getCooldownTimeRemaining() > 0:
+                continue
+            abilities.append(ability)
+
+        if not abilities:
+            print("No abilities for" + hero.getName())
+            return
+
+        enemies = self.world.get_enemies_in_range(hero, 500)
+        if not enemies:
+            return
+
+        ability = random.choice(abilities)
+        enemy = random.choice(enemies)
+
+        if (ability.getBehavior()
+                & ability.DOTA_ABILITY_BEHAVIOR_UNIT_TARGET) > 0:
+            hero.cast(ability.getAbilityIndex(),
+                      target=self.world.get_id(enemy))
+        else:
+            hero.cast(ability.getAbilityIndex(), position=enemy.getOrigin())
+
     def push_lane(self, hero, friendly_tower, enemy_buildings):
         if not hasattr(hero, "friendly_tower"):
-            hero.friendly_tower = self.world.find_entity_by_name(friendly_tower)
+            hero.friendly_tower = self.world.find_entity_by_name(
+                friendly_tower)
 
         if not hasattr(hero, "in_lane"):
             hero.in_lane = False
@@ -93,21 +133,18 @@ class BotExample:
             hero.follow_creeps.remove(creep)
 
         if hero.has_creep_group and len(hero.follow_creeps) > 1:
-            if self.attack_building_if_in_range(hero) or self.attack_unit_if_in_range(
-                hero
-            ):
+            if self.attack_building_if_in_range(
+                    hero) or self.attack_unit_if_in_range(hero):
                 return
-            self.follow_unit(hero, random.choice(hero.follow_creeps))
+            self.follow_unit(hero, hero.follow_creeps[0])
         elif hero.has_creep_group and len(hero.follow_creeps) <= 1:
             hero.has_creep_group = False
             hero.follow_creeps = []
-        elif not hero.has_creep_group and (
-            self.world.get_distance(hero, hero.friendly_tower) > 700
-        ):
+        elif not hero.has_creep_group and (self.world.get_distance(
+                hero, hero.friendly_tower) > 700):
             self.follow_unit(hero, hero.friendly_tower)
-        elif not hero.has_creep_group and (
-            self.world.get_distance(hero, hero.friendly_tower) < 700
-        ):
+        elif not hero.has_creep_group and (self.world.get_distance(
+                hero, hero.friendly_tower) < 700):
             follow_creeps = self.get_closes_creep_group(hero)
             if follow_creeps:
                 hero.follow_creeps = follow_creeps
@@ -157,7 +194,8 @@ class BotExample:
         if self.world.get_distance(hero, pudge) > 600:
             hero.move(*pudge.getOrigin())
 
-        if self.attack_building_if_in_range(hero) or self.attack_unit_if_in_range(hero):
+        if self.attack_building_if_in_range(
+                hero) or self.attack_unit_if_in_range(hero):
             return
 
         hero.move(*pudge.getOrigin())
@@ -177,8 +215,7 @@ class BotExample:
 
     def actions_chen(self, hero):
         abyssal_underlord = self.world.find_entity_by_name(
-            "npc_dota_hero_abyssal_underlord"
-        )
+            "npc_dota_hero_abyssal_underlord")
 
         if not abyssal_underlord:
             hero.move(-6870, -6436, 256)
@@ -187,7 +224,8 @@ class BotExample:
         if self.world.get_distance(hero, abyssal_underlord) > 600:
             hero.move(*abyssal_underlord.getOrigin())
 
-        if self.attack_building_if_in_range(hero) or self.attack_unit_if_in_range(hero):
+        if self.attack_building_if_in_range(
+                hero) or self.attack_unit_if_in_range(hero):
             return
 
         hero.move(*abyssal_underlord.getOrigin())
