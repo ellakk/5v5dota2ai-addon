@@ -16,6 +16,21 @@ function Dota2AI:JSONtree(eTree)
     return tree
 end
 
+
+function Dota2AI:JSONitems(eHero)
+    local items = {}
+    for i = DOTA_ITEM_SLOT_1, DOTA_ITEM_SLOT_6, 1 do
+        local item = eHero:GetItemInSlot(i)
+        items[i] = {}
+        if item then
+            items[i].name = item:GetName()
+            items[i].slot = item:GetItemSlot()
+            items[i].charges = item:GetCurrentCharges()
+        end
+    end
+    return items
+end
+
 function Dota2AI:JSONunit(eUnit)
     local unit = {}
     unit.level = eUnit:GetLevel()
@@ -45,6 +60,7 @@ function Dota2AI:JSONunit(eUnit)
         unit.xp = eUnit:GetCurrentXP()
         unit.deaths = eUnit:GetDeaths()
         unit.denies = eUnit:GetDenies()
+        unit.items = self:JSONitems(eUnit)
 
         -- Abilities are actually in CBaseNPC, but we'll just send them for Heros to avoid cluttering the JSON--
         unit.abilities = {}
