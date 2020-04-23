@@ -7,8 +7,9 @@ Writing bots for video games is a discipline with growing popularity both in aca
 This project aims to make it easier to do this for Dota2. Though Dota2 shares a similar popularity like games with Starcraft, my personal hunch is that it's not as complex (for an AI) to play sufficiently well. Instead, I would like to lay the focus on coordination as on bot controls only one hero and has to work together with human team mates or other bots.))
 
 ## Goals of this project
-    To provide a framework able to to run 5v5 matches with bots in DotA 2. One team controlled by usermade bots competing against the in-game DotA 2 bots.
-    Submit the framework to competitions held by organizations such as the conference on games (COG), Transactions on Computational Intelligence and AI in Games (TCIAIG) and foundations of digital games conference (FDG).
+To provide a framework able to to run 5v5 matches with bots in DotA 2. One team controlled by usermade bots competing against the in-game DotA 2 bots.
+
+Submit the framework to competitions held by organizations such as the conference on games (COG), Transactions on Computational Intelligence and AI in Games (TCIAIG) and foundations of digital games conference (FDG).
  
 
 ((## So why this framework? What does it do?
