@@ -64,8 +64,18 @@ class PlayerHero(Hero):
     def sell(self, slot):
         self.command = {self.getName(): {"command": "SELL", "slot": slot}}
 
-    def use_item(self, slot):
-        self.command = {self.getName(): {"command": "USE_ITEM", "slot": slot}}
+    def use_item(self, slot, target=-1, position=[-1, -1, -1]):
+        x, y, z = position
+        self.command = {
+            self.getName(): {
+                "command": "USE_ITEM",
+                "slot": slot,
+                "target": target,
+                "x": x,
+                "y": y,
+                "z": z
+            }
+        }
 
     def level_up(self, abilityIndex):
         self.command = {
