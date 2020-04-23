@@ -12,8 +12,10 @@ from src.game.PlayerHero import PlayerHero
 class World:
     def __init__(self):
         self.entities = {}
+        self.gameticks = 0
 
     def _update(self, world):
+        self.gameticks = self.gameticks + 1
         new_entities = {}
         for eid, data in world.items():
             entity = None
