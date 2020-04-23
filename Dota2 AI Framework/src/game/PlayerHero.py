@@ -22,6 +22,9 @@ class PlayerHero(Hero):
     def get_command(self):
         return self.command
 
+    def get_items(self):
+        return self.data['items']
+
     def clear_and_archive_command(self):
         if self.command:
             self.commands.append(self.command)
@@ -64,8 +67,18 @@ class PlayerHero(Hero):
     def sell(self, slot):
         self.command = {self.getName(): {"command": "SELL", "slot": slot}}
 
-    def use_item(self, slot):
-        self.command = {self.getName(): {"command": "USE_ITEM", "slot": slot}}
+    def use_item(self, slot, target=-1, position=[-1, -1, -1]):
+        x, y, z = position
+        self.command = {
+            self.getName(): {
+                "command": "USE_ITEM",
+                "slot": slot,
+                "target": target,
+                "x": x,
+                "y": y,
+                "z": z
+            }
+        }
 
     def level_up(self, abilityIndex):
         self.command = {

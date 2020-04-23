@@ -193,6 +193,7 @@ class BotExample:
 
         if self.world.get_distance(hero, pudge) > 600:
             hero.move(*pudge.getOrigin())
+            return
 
         if self.attack_building_if_in_range(
                 hero) or self.attack_unit_if_in_range(hero):
@@ -223,6 +224,7 @@ class BotExample:
 
         if self.world.get_distance(hero, abyssal_underlord) > 600:
             hero.move(*abyssal_underlord.getOrigin())
+            return
 
         if self.attack_building_if_in_range(
                 hero) or self.attack_unit_if_in_range(hero):
