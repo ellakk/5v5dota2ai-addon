@@ -117,6 +117,7 @@ Dota2AI.sHeroSelection = {
     "npc_dota_hero_winter_wyvern",
     "npc_dota_hero_witch_doctor",
     "npc_dota_hero_skeleton_king",
+    "npc_dota_hero_grimstroke",
     "npc_dota_hero_zuus"
 }
 Dota2AI.baseURL = "http://localhost:8080/Dota2AIService/api/service"
