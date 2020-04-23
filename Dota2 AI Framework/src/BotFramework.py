@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 from src.game.World import World
-from src.BotExample import BotExample
 
 
 class BotFramework:
-    def __init__(self):
+    def __init__(self, botclass):
         self.world = World()
-        self.agent = BotExample(self.world)
+        self.agent = botclass(self.world)
         self.initialized = False
 
     def get_party(self):
