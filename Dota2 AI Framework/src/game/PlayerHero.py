@@ -22,6 +22,9 @@ class PlayerHero(Hero):
     def get_command(self):
         return self.command
 
+    def get_items(self):
+        return self.data['items']
+
     def clear_and_archive_command(self):
         if self.command:
             self.commands.append(self.command)
