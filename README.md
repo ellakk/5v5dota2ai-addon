@@ -50,3 +50,15 @@ I put the code on github so everybody can fork it and improve it. Familiarising 
 If you'd like to reach out, pitch me a mail.
 
 Tobias Mahlmann, PhD t.mahlmann@gmail.com
+
+# Using the framework
+     Download DotA 2
+     Download workshop tools for DotA2 (DLC)
+     Download the 5v5 framework
+     Copy the framework files located in the Dota2 AI Addon folder and put them in SteamLibrary/steamapps/common/dota 2 beta
+     Run DotA 2 workshop tools by clicking play and then selecting workshop tools
+     Run the Python client, start it by running app.py in the Dota2 AI Framework folder (py app.py in a command prompt/terminal)
+     Open vConsole in the workshop tool
+     Run the following command in vConsole dota_launch_custom_game dota2ai dota to launch the mod
+
+By performing these steps the framework will launch a game filled with bots of which the team good guys are controlled by example scripts that is included in the framework. The opposing team is controlled by in-game AI bots. You can find the example for controlling the bots in the Dota 2 AI framework/src folder. The example script currently shows a minimal bot implementation. Documentation regarding implementing more advanced features will be included. However by reading the code, a user should be able to implement a bot that can do anything possible in the game.
