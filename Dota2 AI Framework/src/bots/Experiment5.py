@@ -20,12 +20,11 @@ class Experiment5:
         self.world = world
 
     def initialize(self, heroes):
-        pass
+        print("Starting Experiment 5:")
 
     def actions(self, hero):
         if not hero.isAlive():
             return
-        print("gameticks: {}".format(self.world.gameticks))
         if self.world.gameticks == 10:
             self.buy_items(hero)
 
@@ -35,8 +34,11 @@ class Experiment5:
     def buy_items(self, hero):
         item = self.hero_items[hero.getName()]
         hero.buy(item)
+        print("Trying to buy item {0} with hero {1}".format(item, hero.getName()))
+
 
     def assert_items_in_inventory(self):
+        print("------")
         print("Asserting items in inventory")
 
         heroes = self.world._get_player_heroes()
@@ -46,7 +48,7 @@ class Experiment5:
             items = hero.get_items()
             item = self.hero_items[hero.getName()]
             item_names = [n["name"] for n in items.values() if n]
-            print("------")
+
             if item in item_names:
                 print("PASSED: {0} is in {1}'s inventory".format(
                     item, hero.getName()))
@@ -54,9 +56,12 @@ class Experiment5:
             else:
                 print("FAILED: {0} is not in {1}'s inventory".format(
                     item, hero.getName()))
-            print("------")
 
         print("------")
+        if passed == total_tests:
+            print("TEST PASSED:")
+        else:
+            print("TEST FAILED:")
         print("{0}/{1} tests passed".format(passed, total_tests))
         print("------")
         os._exit(1)
