@@ -1,16 +1,22 @@
-# Vector Targeting
-# Clinkz (hero) - Burning Army
-# Pangolier (hero) - Swashbuckle
-# Dark See (hero) - Wall of replica
-# Void Spirit (hero) - Aether remnant
-# 
+# Target Unit
+
+# Lina's  Laguna Blade
+# Vengeful Spirit's  Magic Missile
+# Omniknight's  Heavenly Grace
+# Chen Penitence
+# Clinkz Death Pact
 
 
 class Experiment45:
     def __init__(self, world):
         self.party = [
-            "npc_dota_hero_clinkz",
-            "npc_dota_hero_pangolier",
-            "npc_dota_hero_dark_seer",
-            "npc_dota_hero_void_spirit",
+            "npc_dota_hero_lina",
+            "npc_dota_hero_vengefulspirit",
+            "npc_dota_hero_omniknight",
+            "npc_dota_hero_chen",
+            "npc_dota_hero_clinkz"
         ]
+        self.world = world
+
+        def cast_target_unit(self, hero):
+            pass
