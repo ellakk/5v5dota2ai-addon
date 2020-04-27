@@ -21,7 +21,7 @@ class Experiment6:
         self.world = world
 
     def initialize(self, heroes):
-        print("Starting Experiment 5:")
+        print("Starting Experiment 6:")
 
     def actions(self, hero):
         if self.world.gameticks == 10:
