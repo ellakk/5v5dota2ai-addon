@@ -3,9 +3,7 @@
 
 class Experiment2:
     def __init__(self, world):
-        self.party = [
-
-        ]
+        self.party = self.pick_heroes()
         self.allHeroes = [
             "npc_dota_hero_abaddon",
             "npc_dota_hero_alchemist",
@@ -127,3 +125,8 @@ class Experiment2:
             "npc_dota_hero_grimstroke",
             "npc_dota_hero_zuus"
         ]
+
+        def pick_heroes(self):
+            heroes = self.allHeroes[0:5]
+            self.allHeroes = self.allHeroes[5:]
+            return heroes
