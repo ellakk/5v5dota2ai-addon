@@ -1,11 +1,10 @@
-# Validate use of all heroes
+# Validate usage of all heroes
+import os
 
 
 class Experiment2:
     def __init__(self, world):
-        self.party = [
-
-        ]
+        self.party = self.pick_heroes()
         self.allHeroes = [
             "npc_dota_hero_abaddon",
             "npc_dota_hero_alchemist",
@@ -127,3 +126,34 @@ class Experiment2:
             "npc_dota_hero_grimstroke",
             "npc_dota_hero_zuus"
         ]
+        self.passedHeroes = []
+        self.world = world
+
+        def pick_heroes(self):
+            heroes = self.allHeroes[0:5]
+            self.allHeroes = self.allHeroes[5:]
+            return heroes
+
+        def initialize():
+            print("Starting Experiment 2:")
+
+        def actions(self, currentHero):
+            heroes = self.world.getHeroes()
+            for hero in heroes:
+                if hero.getName() in self.party:
+                    self.passedHeroes.append(hero.getName())
+            if self.allHeroes:
+                self.party = self.pick_heroes()
+                self.world.set_console_command(
+                    "dota_launch_custom_game dota2ai dota")
+            else:
+                print("------")
+                print("Asserting valid heroes")
+                print("------")
+                if len(self.passedHeroes) == 119:
+                    print("TEST PASSED:")
+                else:
+                    print("TEST FAILED:")
+                print("{0}/{1} heroes passed".format(len(self.passedHeroes), 119))
+                print("------")
+                os._exit(1)
