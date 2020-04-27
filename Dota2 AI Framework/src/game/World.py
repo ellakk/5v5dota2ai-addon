@@ -13,6 +13,7 @@ class World:
     def __init__(self):
         self.entities = {}
         self.gameticks = 0
+        self.console_command = None
 
     def _update(self, world):
         self.gameticks = self.gameticks + 1
@@ -85,6 +86,12 @@ class World:
                 enemies.append(ent)
 
         return enemies
+
+    def set_console_command(self, command):
+        self.console_command = command
+
+    def get_console_command(self):
+        return self.console_command
 
     def get_enemy_towers(self, entity):
         towers = []

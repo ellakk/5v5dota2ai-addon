@@ -24,6 +24,11 @@ class BotFramework:
 
     def receive_bot_commands(self):
         commands = {}
+        console_command = self.world.get_console_command()
+        if console_command:
+            self.world.set_console_command(None)
+            commands['console_command'] = console_command
+
         for hero in self.world._get_player_heroes():
             command = hero.get_command()
             if command:
