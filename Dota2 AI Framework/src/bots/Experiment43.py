@@ -17,5 +17,11 @@ class Experiment43:
         ]
         self.world = world
 
+        def initalize():
+            pass
+
+        def actions(self, hero):
+            pass
+
         def cast_target_point(self, hero):
             pass

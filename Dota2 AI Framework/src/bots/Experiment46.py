@@ -18,5 +18,11 @@ class Experiment46:
         ]
         self.world = world
 
+        def initalize():
+            pass
+
+        def actions(self, hero):
+            pass
+
         def use_vector_targeting(self, hero):
             pass

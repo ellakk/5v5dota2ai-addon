@@ -13,5 +13,11 @@ class Experiment48:
         ]
         self.world = world
 
+        def initalize():
+            pass
+
+        def actions(self, hero):
+            pass
+
         def use_comb_target_unit_with_aoe(self, hero):
             pass

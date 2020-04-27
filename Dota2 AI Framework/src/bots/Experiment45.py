@@ -18,5 +18,11 @@ class Experiment45:
         ]
         self.world = world
 
+        def initalize():
+            pass
+
+        def actions(self, hero):
+            pass
+
         def cast_target_unit(self, hero):
             pass

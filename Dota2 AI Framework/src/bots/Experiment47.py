@@ -17,5 +17,11 @@ class Experiment47:
         ]
         self.world = world
 
+        def initalize():
+            pass
+
+        def actions(self, hero):
+            pass
+
         def use_comb_target_point_or_unit(self, hero):
             pass

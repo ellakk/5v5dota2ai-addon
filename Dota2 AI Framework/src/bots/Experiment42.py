@@ -17,5 +17,11 @@ class Experiment42:
         ]
         self.world = world
 
+        def initalize():
+            pass
+
+        def actions(self, hero):
+            pass
+
         def use_toggle(self, hero):
             pass

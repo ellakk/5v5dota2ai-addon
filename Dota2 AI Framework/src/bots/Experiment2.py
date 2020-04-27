@@ -1,4 +1,5 @@
 # Validate usage of all heroes
+# This code has not been tested
 import os
 
 
@@ -144,8 +145,7 @@ class Experiment2:
                     self.passedHeroes.append(hero.getName())
             if self.allHeroes:
                 self.party = self.pick_heroes()
-                self.world.set_console_command(
-                    "dota_launch_custom_game dota2ai dota")
+                self.world.set_console_command("dota_launch_custom_game dota2ai dota")
             else:
                 print("------")
                 print("Asserting valid heroes")
