@@ -105,11 +105,15 @@ end
 function Dota2AI:ParseActions(h, jsonresults)
     actions = package.loaded["game/dkjson"].decode(jsonresults)
     for strhero, cmd in pairs(actions) do
-        local hero = Dota2AI:GetGoodGuy(h, strhero)
-        if hero == nil then
-            Warning("Could not find hero with name: " .. strhero)
+        if strhero == "console_command" then
+            SendToServerConsole(cmd)
         else
-            Dota2AI:ParseHeroCommand(hero, cmd)
+            local hero = Dota2AI:GetGoodGuy(h, strhero)
+            if hero == nil then
+                Warning("Could not find hero with name: " .. strhero)
+            else
+                Dota2AI:ParseHeroCommand(hero, cmd)
+            end
         end
     end
 end
