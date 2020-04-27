@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import os
 
+
 class Experiment5:
     def __init__(self, world):
         self.party = [
@@ -34,8 +35,8 @@ class Experiment5:
     def buy_items(self, hero):
         item = self.hero_items[hero.getName()]
         hero.buy(item)
-        print("Trying to buy item {0} with hero {1}".format(item, hero.getName()))
-
+        print("Trying to buy item {0} with hero {1}".format(
+            item, hero.getName()))
 
     def assert_items_in_inventory(self):
         print("------")
