@@ -22,9 +22,6 @@ class BaseNPC(BaseEntity):
     def getMaxMana(self):
         return self.data["maxMana"]
 
-    def getTeam(self):
-        return self.data["team"]
-
     def isAlive(self):
         return self.data["alive"]
 

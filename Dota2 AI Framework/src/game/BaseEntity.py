@@ -19,3 +19,6 @@ class BaseEntity:
 
     def getOrigin(self):
         return self.data["origin"]
+
+    def getTeam(self):
+        return self.data["team"]
