@@ -24,6 +24,9 @@ class Hero(BaseNPC):
     def getAbilities(self):
         return self.abilities
 
+    def getHasTowerAggro(self):
+        return self.data["hasTowerAggro"]
+
     def getDeaths(self):
         return self.data["deaths"]
 
