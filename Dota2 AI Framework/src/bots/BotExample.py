@@ -16,7 +16,12 @@ class BotExample:
         self.world = world
 
     def initialize(self, heroes):
-        pass
+        self.top_fallback_point = self.world.find_entity_by_name(
+            "dota_goodguys_tower1_top").getOrigin()
+        self.mid_fallback_point = self.world.find_entity_by_name(
+            "dota_goodguys_tower1_mid").getOrigin()
+        self.bot_fallback_point = self.world.find_entity_by_name(
+            "dota_goodguys_tower1_bot").getOrigin()
 
     def actions(self, hero):
         if not hero.isAlive():
@@ -109,8 +114,7 @@ class BotExample:
 
     def push_lane(self, hero, friendly_tower, enemy_buildings):
         if not hasattr(hero, "friendly_tower"):
-            hero.friendly_tower = self.world.find_entity_by_name(
-                friendly_tower)
+            hero.friendly_tower = friendly_tower
 
         if not hasattr(hero, "in_lane"):
             hero.in_lane = False
@@ -122,8 +126,9 @@ class BotExample:
             hero.has_creep_group = False
 
         if not hero.in_lane:
-            hero.move(*hero.friendly_tower.getOrigin())
-            if self.world.get_distance(hero, hero.friendly_tower) < 300:
+            hero.move(*hero.friendly_tower)
+            if self.world.get_distance_pos(hero.getOrigin(),
+                                           hero.friendly_tower) < 300:
                 hero.in_lane = True
             return
 
@@ -140,29 +145,36 @@ class BotExample:
         elif hero.has_creep_group and len(hero.follow_creeps) <= 1:
             hero.has_creep_group = False
             hero.follow_creeps = []
-        elif not hero.has_creep_group and (self.world.get_distance(
-                hero, hero.friendly_tower) > 700):
-            self.follow_unit(hero, hero.friendly_tower)
-        elif not hero.has_creep_group and (self.world.get_distance(
-                hero, hero.friendly_tower) < 700):
+        elif not hero.has_creep_group:
             follow_creeps = self.get_closes_creep_group(hero)
             if follow_creeps:
                 hero.follow_creeps = follow_creeps
                 hero.has_creep_group = True
+            else:
+                hero.move(*hero.friendly_tower)
+
+    def flee_if_tower_aggro(self, hero, safepoint):
+        if hero.getHasTowerAggro():
+            hero.move(*safepoint)
+            return True
+        return False
 
     def close_friendly_creeps(self, hero):
         creeps = self.world.get_friendly_creeps(hero)
         close_creeps = []
         for c in creeps:
-            if self.world.get_distance(c, hero) < 1000:
+            if self.world.get_distance_units(c, hero) < 1000:
                 close_creeps.append(c)
         return close_creeps
 
     # Brew goes mid
     def actions_brewmaster(self, hero):
+        if self.flee_if_tower_aggro(hero, self.mid_fallback_point):
+            return
+
         self.push_lane(
             hero,
-            "dota_goodguys_tower1_mid",
+            self.mid_fallback_point,
             [
                 "dota_badguys_tower1_mid",
                 "dota_badguys_tower2_mid",
@@ -173,9 +185,11 @@ class BotExample:
 
     # Pudge and lina boes bot
     def actions_pudge(self, hero):
+        if self.flee_if_tower_aggro(hero, self.bot_fallback_point):
+            return
         self.push_lane(
             hero,
-            "dota_goodguys_tower1_bot",
+            self.bot_fallback_point,
             [
                 "dota_badguys_tower1_bot",
                 "dota_badguys_tower2_bot",
@@ -185,13 +199,15 @@ class BotExample:
         )
 
     def actions_lina(self, hero):
+        if self.flee_if_tower_aggro(hero, self.bot_fallback_point):
+            return
         pudge = self.world.find_entity_by_name("npc_dota_hero_pudge")
 
         if not pudge:
             hero.move(-6870, -6436, 256)
             return
 
-        if self.world.get_distance(hero, pudge) > 600:
+        if self.world.get_distance_units(hero, pudge) > 600:
             hero.move(*pudge.getOrigin())
             return
 
@@ -203,9 +219,11 @@ class BotExample:
 
     # Underload and chen goes top
     def actions_abyssal_underlord(self, hero):
+        if self.flee_if_tower_aggro(hero, self.top_fallback_point):
+            return
         self.push_lane(
             hero,
-            "dota_goodguys_tower1_top",
+            self.top_fallback_point,
             [
                 "dota_badguys_tower1_top",
                 "dota_badguys_tower2_top",
@@ -215,6 +233,8 @@ class BotExample:
         )
 
     def actions_chen(self, hero):
+        if self.flee_if_tower_aggro(hero, self.top_fallback_point):
+            return
         abyssal_underlord = self.world.find_entity_by_name(
             "npc_dota_hero_abyssal_underlord")
 
@@ -222,7 +242,7 @@ class BotExample:
             hero.move(-6870, -6436, 256)
             return
 
-        if self.world.get_distance(hero, abyssal_underlord) > 600:
+        if self.world.get_distance_units(hero, abyssal_underlord) > 600:
             hero.move(*abyssal_underlord.getOrigin())
             return
 
@@ -237,7 +257,7 @@ class BotExample:
         friendly_creeps = self.world.get_friendly_creeps(hero)
         creeps_by_distance = {}
         for creep in friendly_creeps:
-            distance = self.world.get_distance(hero, creep)
+            distance = self.world.get_distance_units(hero, creep)
             creeps_by_distance[distance] = creep
 
         if not creeps_by_distance:
@@ -252,7 +272,7 @@ class BotExample:
         for creep in friendly_creeps:
             if creep == closest_creep:
                 continue
-            distance = self.world.get_distance(closest_creep, creep)
+            distance = self.world.get_distance_units(closest_creep, creep)
             creeps_by_distance[distance] = creep
 
         creep_group.append(closest_creep)
