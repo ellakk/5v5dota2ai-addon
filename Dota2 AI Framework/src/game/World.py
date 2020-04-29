@@ -88,6 +88,8 @@ class World:
     def get_enemies_in_range(self, entity, range):
         enemies = []
         for ent in self.entities.values():
+            if isinstance(ent, Tree):
+                continue
             if ent.getTeam() == entity.getTeam():
                 continue
             if self.get_distance_units(entity, ent) > range:
