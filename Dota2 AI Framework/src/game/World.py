@@ -3,10 +3,10 @@ import math
 
 from src.game.BaseNPC import BaseNPC
 from src.game.Tower import Tower
-from src.game.Tree import Tree
 from src.game.Building import Building
 from src.game.Hero import Hero
 from src.game.PlayerHero import PlayerHero
+from src.game.Tree import Tree
 
 
 class World:
@@ -39,6 +39,12 @@ class World:
             return Building(data)
         elif data["type"] == "BaseNPC":
             return BaseNPC(data)
+        elif data["type"] == "Tree":
+            return Tree(data)
+        print(data)
+        raise Exception(
+            "Error, the following entity did not match our entities:\n{}".
+            format(data))
 
     def _get_player_heroes(self):
         heroes = []
@@ -52,11 +58,15 @@ class World:
             if entity.getName() == name:
                 return entity
 
-    def get_distance(self, entity1, entity2):
+    def get_distance_pos(self, pos1, pos2):
+        x1, y1, z1 = pos1
+        x2, y2, z2 = pos2
+        return math.sqrt(((x2 - x1)**2) + ((y2 - y1)**2))
+
+    def get_distance_units(self, entity1, entity2):
         x1, y1, z1 = entity1.getOrigin()
         x2, y2, z2 = entity2.getOrigin()
-
-        return math.sqrt(((x2 - x1) ** 2) + ((y2 - y1) ** 2))
+        return math.sqrt(((x2 - x1)**2) + ((y2 - y1)**2))
 
     def get_id(self, entity):
         for id, ent in self.entities.items():
@@ -68,7 +78,7 @@ class World:
         for ent in self.entities.values():
             if ent.getTeam() == entity.getTeam():
                 continue
-            if self.get_distance(entity, ent) > entity.getAttackRange():
+            if self.get_distance_units(entity, ent) > entity.getAttackRange():
                 continue
             if ent.isAlive():
                 enemies.append(ent)
@@ -80,7 +90,7 @@ class World:
         for ent in self.entities.values():
             if ent.getTeam() == entity.getTeam():
                 continue
-            if self.get_distance(entity, ent) > range:
+            if self.get_distance_units(entity, ent) > range:
                 continue
             if ent.isAlive():
                 enemies.append(ent)
@@ -97,7 +107,8 @@ class World:
         towers = []
 
         for entity in self.entities:
-            if isinstance(entity, Tower) and entity.getTeam() != entity.getTeam():
+            if isinstance(entity,
+                          Tower) and entity.getTeam() != entity.getTeam():
                 towers.append(entity)
 
     def get_friendly_creeps(self, entity):
