@@ -37,9 +37,21 @@ function Dota2AI:HeroSelection()
                     if currentState ~= DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
                         return 1.0
                     end
-
                     for i = 1, TableLength(data) do
-                        Tutorial:AddBot(Dota2AI:GetRandomHero(), "mid", "easy", false)
+                        local lane = nil
+                        if i == 1 then
+                            lane = "mid"
+                        elseif i == 2 then
+                            lane = "top"
+                        elseif i == 3 then
+                            lane = "bot"
+                        elseif i == 4 then
+                            lane = "top"
+                        elseif i == 5 then
+                            lane = "bot"
+                        end
+
+                        Tutorial:AddBot(Dota2AI:GetRandomHero(), lane, "easy", false)
                     end
                 end
             )
