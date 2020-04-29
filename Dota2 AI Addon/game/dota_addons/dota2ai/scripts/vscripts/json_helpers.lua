@@ -16,7 +16,6 @@ function Dota2AI:JSONtree(eTree)
     return tree
 end
 
-
 function Dota2AI:JSONitems(eHero)
     local items = {}
     for i = DOTA_ITEM_SLOT_1, DOTA_ITEM_SLOT_6, 1 do
@@ -107,46 +106,12 @@ function Dota2AI:JSONunit(eUnit)
 end
 
 function Dota2AI:HasTowerAggro(hero)
-    local buildings = {}
-    buildings[0] = Entities:FindByName(nil, "dota_goodguys_tower1_bot")
-    buildings[1] = Entities:FindByName(nil, "dota_goodguys_tower2_bot")
-    buildings[2] = Entities:FindByName(nil, "dota_goodguys_tower3_bot")
-    buildings[3] = Entities:FindByName(nil, "dota_goodguys_tower1_mid")
-    buildings[4] = Entities:FindByName(nil, "dota_goodguys_tower2_mid")
-    buildings[5] = Entities:FindByName(nil, "dota_goodguys_tower3_mid")
-    buildings[6] = Entities:FindByName(nil, "dota_goodguys_tower1_top")
-    buildings[7] = Entities:FindByName(nil, "dota_goodguys_tower2_top")
-    buildings[8] = Entities:FindByName(nil, "dota_goodguys_tower3_top")
-    buildings[9] = Entities:FindByName(nil, "dota_goodguys_tower4_top")
-    buildings[10] = Entities:FindByName(nil, "dota_goodguys_tower4_bot")
-    buildings[11] = Entities:FindByName(nil, "good_rax_melee_bot")
-    buildings[12] = Entities:FindByName(nil, "good_rax_range_bot")
-    buildings[13] = Entities:FindByName(nil, "good_rax_melee_mid")
-    buildings[14] = Entities:FindByName(nil, "good_rax_range_mid")
-    buildings[15] = Entities:FindByName(nil, "good_rax_melee_top")
-    buildings[16] = Entities:FindByName(nil, "good_rax_range_top")
-    buildings[17] = Entities:FindByName(nil, "ent_dota_fountain_good")
-    buildings[18] = Entities:FindByName(nil, "dota_badguys_tower1_bot")
-    buildings[19] = Entities:FindByName(nil, "dota_badguys_tower2_bot")
-    buildings[20] = Entities:FindByName(nil, "dota_badguys_tower3_bot")
-    buildings[21] = Entities:FindByName(nil, "dota_badguys_tower1_mid")
-    buildings[22] = Entities:FindByName(nil, "dota_badguys_tower2_mid")
-    buildings[23] = Entities:FindByName(nil, "dota_badguys_tower3_mid")
-    buildings[24] = Entities:FindByName(nil, "dota_badguys_tower1_top")
-    buildings[25] = Entities:FindByName(nil, "dota_badguys_tower2_top")
-    buildings[26] = Entities:FindByName(nil, "dota_badguys_tower3_top")
-    buildings[27] = Entities:FindByName(nil, "dota_badguys_tower4_top")
-    buildings[28] = Entities:FindByName(nil, "dota_badguys_tower4_bot")
-    buildings[29] = Entities:FindByName(nil, "bad_rax_melee_bot")
-    buildings[30] = Entities:FindByName(nil, "bad_rax_range_bot")
-    buildings[31] = Entities:FindByName(nil, "bad_rax_melee_mid")
-    buildings[32] = Entities:FindByName(nil, "bad_rax_range_mid")
-    buildings[33] = Entities:FindByName(nil, "bad_rax_melee_top")
-    buildings[34] = Entities:FindByName(nil, "bad_rax_range_top")
-    buildings[35] = Entities:FindByName(nil, "ent_dota_fountain_bad")
+    local buildings = self:GetStandingBuildings()
+
     local heroName = hero:GetName()
-    for i, building in ipairs(buildings) do
-        local aggrohandle = building:GetAggroTarget()
+
+    for i, unit in ipairs(buildings) do
+        local aggrohandle = buildings[i]:GetAggroTarget()
         if aggrohandle ~= nil and aggrohandle:GetName() == heroName then
             return true
         end
@@ -188,55 +153,7 @@ function Dota2AI:JSONWorld(eHero)
     end
 
     --so FindUnitsInRadius somehow ignores all the buildings
-    local buildings = {}
-    buildings[0] = Entities:FindByName(nil, "dota_goodguys_tower1_bot")
-    buildings[1] = Entities:FindByName(nil, "dota_goodguys_tower2_bot")
-    buildings[2] = Entities:FindByName(nil, "dota_goodguys_tower3_bot")
-
-    buildings[3] = Entities:FindByName(nil, "dota_goodguys_tower1_mid")
-    buildings[4] = Entities:FindByName(nil, "dota_goodguys_tower2_mid")
-    buildings[5] = Entities:FindByName(nil, "dota_goodguys_tower3_mid")
-
-    buildings[6] = Entities:FindByName(nil, "dota_goodguys_tower1_top")
-    buildings[7] = Entities:FindByName(nil, "dota_goodguys_tower2_top")
-    buildings[8] = Entities:FindByName(nil, "dota_goodguys_tower3_top")
-
-    buildings[9] = Entities:FindByName(nil, "dota_goodguys_tower4_top")
-    buildings[10] = Entities:FindByName(nil, "dota_goodguys_tower4_bot")
-
-    buildings[11] = Entities:FindByName(nil, "good_rax_melee_bot")
-    buildings[12] = Entities:FindByName(nil, "good_rax_range_bot")
-    buildings[13] = Entities:FindByName(nil, "good_rax_melee_mid")
-    buildings[14] = Entities:FindByName(nil, "good_rax_range_mid")
-    buildings[15] = Entities:FindByName(nil, "good_rax_melee_top")
-    buildings[16] = Entities:FindByName(nil, "good_rax_range_top")
-
-    buildings[17] = Entities:FindByName(nil, "ent_dota_fountain_good")
-
-    --dire
-    buildings[18] = Entities:FindByName(nil, "dota_badguys_tower1_bot")
-    buildings[19] = Entities:FindByName(nil, "dota_badguys_tower2_bot")
-    buildings[20] = Entities:FindByName(nil, "dota_badguys_tower3_bot")
-
-    buildings[21] = Entities:FindByName(nil, "dota_badguys_tower1_mid")
-    buildings[22] = Entities:FindByName(nil, "dota_badguys_tower2_mid")
-    buildings[23] = Entities:FindByName(nil, "dota_badguys_tower3_mid")
-
-    buildings[24] = Entities:FindByName(nil, "dota_badguys_tower1_top")
-    buildings[25] = Entities:FindByName(nil, "dota_badguys_tower2_top")
-    buildings[26] = Entities:FindByName(nil, "dota_badguys_tower3_top")
-
-    buildings[27] = Entities:FindByName(nil, "dota_badguys_tower4_top")
-    buildings[28] = Entities:FindByName(nil, "dota_badguys_tower4_bot")
-
-    buildings[29] = Entities:FindByName(nil, "bad_rax_melee_bot")
-    buildings[30] = Entities:FindByName(nil, "bad_rax_range_bot")
-    buildings[31] = Entities:FindByName(nil, "bad_rax_melee_mid")
-    buildings[32] = Entities:FindByName(nil, "bad_rax_range_mid")
-    buildings[33] = Entities:FindByName(nil, "bad_rax_melee_top")
-    buildings[34] = Entities:FindByName(nil, "bad_rax_range_top")
-
-    buildings[35] = Entities:FindByName(nil, "ent_dota_fountain_bad")
+    local buildings = self.GetStandingBuildings()
 
     for i, unit in ipairs(buildings) do
         world.entities[unit:entindex()] = self:JSONunit(unit)
@@ -247,6 +164,57 @@ end
 
 function VectorToArray(v)
     return {v.x, v.y, v.z}
+end
+
+function Dota2AI:GetStandingBuildings()
+    local buildingNames = {
+        "dota_goodguys_tower1_bot",
+        "dota_goodguys_tower2_bot",
+        "dota_goodguys_tower3_bot",
+        "dota_goodguys_tower1_mid",
+        "dota_goodguys_tower2_mid",
+        "dota_goodguys_tower3_mid",
+        "dota_goodguys_tower1_top",
+        "dota_goodguys_tower2_top",
+        "dota_goodguys_tower3_top",
+        "dota_goodguys_tower4_top",
+        "dota_goodguys_tower4_bot",
+        "good_rax_melee_bot",
+        "good_rax_range_bot",
+        "good_rax_melee_mid",
+        "good_rax_range_mid",
+        "good_rax_melee_top",
+        "good_rax_range_top",
+        "ent_dota_fountain_good",
+        "dota_badguys_tower1_bot",
+        "dota_badguys_tower2_bot",
+        "dota_badguys_tower3_bot",
+        "dota_badguys_tower1_mid",
+        "dota_badguys_tower2_mid",
+        "dota_badguys_tower3_mid",
+        "dota_badguys_tower1_top",
+        "dota_badguys_tower2_top",
+        "dota_badguys_tower3_top",
+        "dota_badguys_tower4_top",
+        "dota_badguys_tower4_bot",
+        "bad_rax_melee_bot",
+        "bad_rax_range_bot",
+        "bad_rax_melee_mid",
+        "bad_rax_range_mid",
+        "bad_rax_melee_top",
+        "bad_rax_range_top",
+        "ent_dota_fountain_bad"
+    }
+    local buildings = {}
+    local count = 0
+    for i, name in pairs(buildingNames) do
+        local e = Entities:FindByName(nil, name)
+        if e ~= nil then
+            buildings[count] = e
+            count = count + 1
+        end
+    end
+    return buildings
 end
 
 function Dota2AI:JSONGetGoodGuys(eHero)
@@ -266,7 +234,6 @@ function Dota2AI:GetGoodGuy(eHero, who)
         end
     end
 end
-
 
 function Dota2AI:GetGoodGuys(eHero)
     local heroes = {}
