@@ -151,6 +151,7 @@ function Dota2AI:HasTowerAggro(hero)
             return true
         end
     end
+    return false
 end
 
 -- At the moment, we serialise the whole game state visible to a team
