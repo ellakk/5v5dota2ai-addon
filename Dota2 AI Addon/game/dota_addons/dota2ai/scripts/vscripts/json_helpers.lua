@@ -25,6 +25,7 @@ function Dota2AI:JSONitems(eHero)
             items[i].name = item:GetName()
             items[i].slot = item:GetItemSlot()
             items[i].charges = item:GetCurrentCharges()
+            items[i].castRange = item:GetCastRange()
         end
     end
     return items
