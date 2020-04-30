@@ -31,11 +31,11 @@ function Dota2AI:OnGameRulesStateChange()
                         return 0.5
                     end
                     Dota2AI:OnHeroPicked(heroEntity, heroes)
-                    local c = 2
-                    while c <= TableLength(heroes) do
-                        SendToServerConsole("kickid " .. c)
-                        c = c + 1
-                    end
+                    -- local c = 2
+                    -- while c <= TableLength(heroes) do
+                    --     SendToServerConsole("kickid " .. c)
+                    --     c = c + 1
+                    -- end
                 end
         })
     end

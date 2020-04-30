@@ -33,7 +33,7 @@ function Dota2AI:InitGameMode()
     local GameMode = GameRules:GetGameModeEntity()
 
     GameMode:SetBotThinkingEnabled(true) -- the ConVar is currently disabled in C++
-    GameMode:SetFreeCourierModeEnabled(true)
+    -- GameMode:SetFreeCourierModeEnabled(true)
     --GameMode:SetFogOfWarDisabled(true)
 
     GameRules:SetShowcaseTime(0)

@@ -26,6 +26,9 @@ function Dota2AI:HeroSelection()
                         endTime = Time() + 1,
                         callback = function()
                             PlayerResource:GetPlayer(playerID):SetSelectedHero(hero)
+                            if i > 1 then
+                                SendToServerConsole("kickid " .. i)
+                            end
                         end
                     }
                 )
