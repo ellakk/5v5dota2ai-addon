@@ -8,10 +8,10 @@ class BotExample:
     def __init__(self, world):
         self.party = [
             "npc_dota_hero_brewmaster",
-            "npc_dota_hero_pudge",
+            "npc_dota_hero_doom_bringer",
             "npc_dota_hero_abyssal_underlord",
-            "npc_dota_hero_lina",
-            "npc_dota_hero_chen",
+            "npc_dota_hero_beastmaster",
+            "npc_dota_hero_axe",
         ]
         self.world = world
 
@@ -27,6 +27,15 @@ class BotExample:
         if not hero.isAlive():
             return
 
+        if self.world.gameticks < 5:
+            hero.move(-6826, -7261, 256)
+            return
+
+        if self.world.gameticks == 5:
+            print("Attempting to buy regen")
+            self.buy_ring_of_regen(hero)
+            return
+
         if hero.getAbilityPoints() > 0:
             hero.level_up(random.randint(0, 3))
             return
@@ -34,17 +43,24 @@ class BotExample:
         if hero.getName() == "npc_dota_hero_brewmaster":
             self.actions_brewmaster(hero)
 
-        if hero.getName() == "npc_dota_hero_pudge":
-            self.actions_pudge(hero)
+        if hero.getName() == "npc_dota_hero_doom_bringer":
+            self.actions_doom(hero)
 
         if hero.getName() == "npc_dota_hero_abyssal_underlord":
             self.actions_abyssal_underlord(hero)
 
-        if hero.getName() == "npc_dota_hero_lina":
-            self.actions_lina(hero)
+        if hero.getName() == "npc_dota_hero_beastmaster":
+            self.actions_beastmaster(hero)
 
-        if hero.getName() == "npc_dota_hero_chen":
-            self.actions_chen(hero)
+        if hero.getName() == "npc_dota_hero_axe":
+            self.actions_axe(hero)
+
+    def buy_healing_salve(self, hero):
+        if hero.getGold() > 110:
+            pass
+
+    def buy_ring_of_regen(self, hero):
+        hero.buy("item_ring_of_regen")
 
     def attack_anything_if_in_range(self, hero):
         enemies = self.world.get_enemies_in_attack_range(hero)
@@ -112,9 +128,9 @@ class BotExample:
         else:
             hero.cast(ability.getAbilityIndex(), position=enemy.getOrigin())
 
-    def push_lane(self, hero, friendly_tower, enemy_buildings):
-        if not hasattr(hero, "friendly_tower"):
-            hero.friendly_tower = friendly_tower
+    def push_lane(self, hero, fallback_position):
+        if not hasattr(hero, "fallback_position"):
+            hero.fallback_position = fallback_position
 
         if not hasattr(hero, "in_lane"):
             hero.in_lane = False
@@ -126,9 +142,9 @@ class BotExample:
             hero.has_creep_group = False
 
         if not hero.in_lane:
-            hero.move(*hero.friendly_tower)
+            hero.move(*hero.fallback_position)
             if self.world.get_distance_pos(hero.getOrigin(),
-                                           hero.friendly_tower) < 300:
+                                           hero.fallback_position) < 300:
                 hero.in_lane = True
             return
 
@@ -151,7 +167,7 @@ class BotExample:
                 hero.follow_creeps = follow_creeps
                 hero.has_creep_group = True
             else:
-                hero.move(*hero.friendly_tower)
+                hero.move(*hero.fallback_position)
 
     def flee_if_tower_aggro(self, hero, safepoint):
         if hero.getHasTowerAggro():
@@ -174,83 +190,39 @@ class BotExample:
 
         self.push_lane(
             hero,
-            self.mid_fallback_point,
-            [
-                "dota_badguys_tower1_mid",
-                "dota_badguys_tower2_mid",
-                "dota_badguys_tower3_mid",
-                "dota_badguys_tower4_mid",
-            ],
-        )
+            self.mid_fallback_point)
 
-    # Pudge and lina boes bot
-    def actions_pudge(self, hero):
+    # Doom goes bot
+    def actions_doom(self, hero):
         if self.flee_if_tower_aggro(hero, self.bot_fallback_point):
             return
         self.push_lane(
             hero,
-            self.bot_fallback_point,
-            [
-                "dota_badguys_tower1_bot",
-                "dota_badguys_tower2_bot",
-                "dota_badguys_tower3_bot",
-                "dota_badguys_tower4_bot",
-            ],
-        )
+            self.bot_fallback_point)
 
-    def actions_lina(self, hero):
+    # Beastmaster goes bot
+    def actions_beastmaster(self, hero):
         if self.flee_if_tower_aggro(hero, self.bot_fallback_point):
             return
-        pudge = self.world.find_entity_by_name("npc_dota_hero_pudge")
+        self.push_lane(
+            hero,
+            self.bot_fallback_point)
 
-        if not pudge:
-            hero.move(-6870, -6436, 256)
-            return
-
-        if self.world.get_distance_units(hero, pudge) > 600:
-            hero.move(*pudge.getOrigin())
-            return
-
-        if self.attack_building_if_in_range(
-                hero) or self.attack_unit_if_in_range(hero):
-            return
-
-        hero.move(*pudge.getOrigin())
-
-    # Underload and chen goes top
+    # Underlord goes top
     def actions_abyssal_underlord(self, hero):
         if self.flee_if_tower_aggro(hero, self.top_fallback_point):
             return
         self.push_lane(
             hero,
-            self.top_fallback_point,
-            [
-                "dota_badguys_tower1_top",
-                "dota_badguys_tower2_top",
-                "dota_badguys_tower3_top",
-                "dota_badguys_tower4_top",
-            ],
-        )
+            self.top_fallback_point)
 
-    def actions_chen(self, hero):
+    # Axe goes top
+    def actions_axe(self, hero):
         if self.flee_if_tower_aggro(hero, self.top_fallback_point):
             return
-        abyssal_underlord = self.world.find_entity_by_name(
-            "npc_dota_hero_abyssal_underlord")
-
-        if not abyssal_underlord:
-            hero.move(-6870, -6436, 256)
-            return
-
-        if self.world.get_distance_units(hero, abyssal_underlord) > 600:
-            hero.move(*abyssal_underlord.getOrigin())
-            return
-
-        if self.attack_building_if_in_range(
-                hero) or self.attack_unit_if_in_range(hero):
-            return
-
-        hero.move(*abyssal_underlord.getOrigin())
+        self.push_lane(
+            hero,
+            self.top_fallback_point)
 
     def get_closes_creep_group(self, hero):
         creep_group = []
