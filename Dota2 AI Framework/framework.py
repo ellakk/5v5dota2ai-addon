@@ -21,7 +21,7 @@ def party():
 def chat():
     postdata = request.body.read()
 
-    print(postdata)
+    # print(postdata)
     return json.dumps("ok")
 
 
@@ -42,4 +42,4 @@ def update():
     return json.dumps(commands)
 
 
-run(host="localhost", port=8080, debug=True)
+run(host="localhost", port=8080, debug=True, quiet=False)
