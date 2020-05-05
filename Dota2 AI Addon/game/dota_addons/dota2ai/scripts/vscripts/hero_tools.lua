@@ -173,8 +173,16 @@ function Dota2AI:UseAbility(eHero, eAbility)
     local level = eAbility:GetLevel()
     local manaCost = eAbility:GetManaCost(level)
     local player = eHero:GetPlayerOwnerID()
+    local behavior = eAbility:GetBehavior()
 
-    if eHero:GetMana() < manaCost then
+    if (BitAND(behavior, DOTA_ABILITY_BEHAVIOR_TOGGLE)) then
+        eAbility:StartCooldown(eAbility:GetCooldown(level))
+        eAbility:PayManaCost()
+        eAbility:OnSpellStart()
+        print("Fire i nthe ohole")
+        eAbility:OnToggle()
+
+    elseif eHero:GetMana() < manaCost then
         Warning("Bot tried to use ability without mana")
     elseif eAbility:GetCooldownTimeRemaining() > 0 then
         Warning("Bot tried to use ability still on cooldown")
@@ -184,7 +192,7 @@ function Dota2AI:UseAbility(eHero, eAbility)
             eAbility:PayManaCost()
             eAbility:OnSpellStart()
         end
-        local behavior = eAbility:GetBehavior()
+
         --There is some logic missing here to check for range and make the hero face the right direction
         if (BitAND(behavior, DOTA_ABILITY_BEHAVIOR_NO_TARGET)) then
             Say(nil, eHero:GetName() .. " casting " .. eAbility:GetName(), false)
