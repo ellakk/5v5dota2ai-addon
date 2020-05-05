@@ -118,16 +118,6 @@ function Dota2AI:Sell(eHero, result)
     end
 end
 
-function Dota2AI:UseItem(eHero, result)
-    local slot = result.slot
-    local eItem = eHero:GetItemInSlot(slot)
-    if eItem then
-        self:UseAbility(eHero, eItem)
-    else
-        Warning("Bot tried to use item in empty slot")
-    end
-end
-
 function Dota2AI:Noop(eHero, result)
     --Noop
 end
@@ -168,6 +158,17 @@ function Dota2AI:Cast(eHero, result)
     self:UseAbility(eHero, eAbility)
 end
 
+function Dota2AI:UseItem(eHero, result)
+    local slot = result.slot
+    local eItem = eHero:GetItemInSlot(slot)
+    Warning("Hero" .. eHero:GetName() .. "is attempting to use item " .. eItem:GetName())
+    if eItem then
+        self:UseAbility(eHero, eItem)
+    else
+        Warning("Bot tried to use item in empty slot")
+    end
+end
+
 function Dota2AI:UseAbility(eHero, eAbility)
     local level = eAbility:GetLevel()
     local manaCost = eAbility:GetManaCost(level)
@@ -178,9 +179,11 @@ function Dota2AI:UseAbility(eHero, eAbility)
     elseif eAbility:GetCooldownTimeRemaining() > 0 then
         Warning("Bot tried to use ability still on cooldown")
     else
-        eAbility:StartCooldown(eAbility:GetCooldown(level))
-        eAbility:PayManaCost()
-        eAbility:OnSpellStart()
+        if not eAbility:IsItem() then
+            eAbility:StartCooldown(eAbility:GetCooldown(level))
+            eAbility:PayManaCost()
+            eAbility:OnSpellStart()
+        end
         local behavior = eAbility:GetBehavior()
         --There is some logic missing here to check for range and make the hero face the right direction
         if (BitAND(behavior, DOTA_ABILITY_BEHAVIOR_NO_TARGET)) then
