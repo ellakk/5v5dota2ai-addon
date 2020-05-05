@@ -57,6 +57,6 @@ class Experiment43:
             print("TEST PASSED:")
         else:
             print("TEST FAILED:")
-            print("{0}/{1} tests passed".format(passed, total_tests))
-            print("------")
+        print("{0}/{1} tests passed".format(passed, total_tests))
+        print("------")
         os._exit(1)
