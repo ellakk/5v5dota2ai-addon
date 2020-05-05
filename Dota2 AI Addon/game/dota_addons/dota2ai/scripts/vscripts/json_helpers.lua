@@ -86,6 +86,7 @@ function Dota2AI:JSONunit(eUnit)
                 unit.abilities[index].cooldownTime = eAbility:GetCooldownTime()
                 unit.abilities[index].cooldownTimeRemaining = eAbility:GetCooldownTimeRemaining()
                 unit.abilities[index].behavior = eAbility:GetBehavior()
+                unit.abilities[index].toggleState = eAbility:GetToggleState()
             end
         end
     elseif eUnit:IsBuilding() then

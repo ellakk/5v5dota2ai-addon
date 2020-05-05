@@ -100,3 +100,6 @@ class Ability(BaseEntity):
 
     def getTargetType(self):
         return self.data["targetType"]
+
+    def getToggleState(self):
+        return self.data["toggleState"]
