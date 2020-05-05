@@ -39,8 +39,6 @@ class Experiment7:
     def use_item(self, hero):
         slot = None
         item_name = self.hero_items[hero.getName()]
-        print("items in hero {}'s inventory".format(hero.getName()))
-        print(hero.get_items().values())
         for item in hero.get_items().values():
             if item and item["name"] == item_name:
                 slot = item["slot"]
@@ -62,7 +60,7 @@ class Experiment7:
 
     def assert_items_used(self):
         print("------")
-        print("Asserting that bought items are no longer in inventory")
+        print("Asserting that bought items has been used and are no longer in inventory")
 
         heroes = self.world._get_player_heroes()
         total_tests = 5
