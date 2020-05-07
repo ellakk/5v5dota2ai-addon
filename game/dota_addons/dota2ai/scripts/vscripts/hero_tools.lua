@@ -44,6 +44,22 @@ function Dota2AI:ParseHeroCommand(eHero, result)
         self:UseItem(eHero, result)
     elseif command == "NOOP" then
         self:Noop(eHero, result)
+    elseif command == "CAST_ABILITY_TOGGLE" then
+        self.CastAbilityToggle(eHero, result)
+    elseif command == "CAST_ABILITY_NO_TARGET" then
+        self.CastAbilityNoTarget(eHero, result)
+    elseif command == "CAST_ABILITY_TARGET_POINT" then
+        self.CastAbilityTargetPoint(eHero, result)
+    elseif command == "CAST_ABILITY_TARGET_AREA" then
+        self.CastAbilityTargetArea(eHero, result)
+    elseif command == "CAST_ABILITY_TARGET_UNIT" then
+        self.CastAbilityTargetUnit(eHero, result)
+    elseif command == "CAST_ABILITY_VECTOR_TARGETING" then
+        self.CastAbilityVectorTargeting(eHero, result)
+    elseif command == "CAST_ABILITY_TARGET_UNIT_AOE" then
+        self.CastAbilityTargetUnitAOE(eHero, result)
+    elseif command == "CAST_ABILITY_TARGET_COMBO_TARGET_POINT_UNIT" then
+        self.CastAbilityComboTargetPointUnit(eHero, result)
     else
         self._Error = true
         Warning(eHero:GetName() .. " sent invalid command " .. reply)
@@ -169,20 +185,102 @@ function Dota2AI:UseItem(eHero, result)
     end
 end
 
+function Dota2AI:CastAbilityToggle(eHero, result)
+    local eAbility = eHero:GetAbilityByIndex(result.ability)
+    if self:SetupAbility(eHero, eAbility) then
+        local player = eHero:GetPlayerOwnerID()
+        -- eAbility:OnToggle()
+        eHero:CastAbilityToggle(eAbility, player)
+    end
+end
+
+function Dota2AI:CastAbilityNoTarget(eHero, result)
+    local eAbility = eHero:GetAbilityByIndex(result.ability)
+    if self:SetupAbility(eHero, eAbility) then
+        local player = eHero:GetPlayerOwnerID()
+        eHero:CastAbilityNoTarget(eAbility, player)
+    end
+end
+
+function Dota2AI:CastAbilityTargetPoint(eHero, result)
+    local eAbility = eHero:GetAbilityByIndex(result.ability)
+    if self:SetupAbility(eHero, eAbility) then
+        local player = eHero:GetPlayerOwnerID()
+        eHero:CastAbilityOnPosition(Vector(result.x, result.y, result.z), eAbility, player)
+    end
+end
+
+function Dota2AI:CastAbilityTargetArea(eHero, result)
+    local eAbility = eHero:GetAbilityByIndex(result.ability)
+    if self:SetupAbility(eHero, eAbility) then
+        local player = eHero:GetPlayerOwnerID()
+        eHero:CastAbilityOnPosition(Vector(result.x, result.y, result.z), eAbility, player)
+    end
+end
+
+function Dota2AI:CastAbilityTargetUnit(eHero, result)
+    local eAbility = eHero:GetAbilityByIndex(result.ability)
+    if self:SetupAbility(eHero, eAbility) then
+        local player = eHero:GetPlayerOwnerID()
+        local target = EntIndexToHScript(result.target)
+        eHero:CastAbilityOnTarget(target, eAbility, player)
+    end
+end
+
+function Dota2AI:CastAbilityVectorTargeting(eHero, result)
+    local eAbility = eHero:GetAbilityByIndex(result.ability)
+    if self:SetupAbility(eHero, eAbility) then
+        local player = eHero:GetPlayerOwnerID()
+        eHero:CastAbilityOnPosition(Vector(result.x, result.y, result.z), eAbility, player)
+    end
+end
+
+function Dota2AI:CastAbilityTargetUnitAOE(eHero, result)
+    local eAbility = eHero:GetAbilityByIndex(result.ability)
+    if self:SetupAbility(eHero, eAbility) then
+        local player = eHero:GetPlayerOwnerID()
+        local target = EntIndexToHScript(result.target)
+        eHero:CastAbilityOnTarget(target, eAbility, player)
+    end
+end
+
+function Dota2AI:CastAbilityComboTargetPointUnit(eHero, result)
+    local eAbility = eHero:GetAbilityByIndex(result.ability)
+    if self:SetupAbility(eHero, eAbility) then
+        local behavior = eAbility:GetBehavior()
+        local player = eHero:GetPlayerOwnerID()
+        if (BitAND(behaviour, DOTA_ABILITY_BEHAVIOR_UNIT_TARGET)) then
+            local target = EntIndexToHScript(result.target)
+            eHero:CastAbilityOnTarget(target, eAbility, player)
+        elseif (BitAND(behaviour, DOTA_ABILITY_BEHAVIOR_POINT)) then
+            eHero:CastAbilityOnPosition(Vector(result.x, result.y, result.z), eAbility, player)
+        end
+    end
+end
+
+function Dota2AI:SetupAbility(eHero, eAbility)
+    local level = eAbility:GetLevel()
+    local manaCost = eAbility:GetManaCost(level)
+    if eHero:GetMana() < manaCost then
+        Warning("Bot tried to use ability without mana")
+        return false
+    elseif eAbility:GetCooldownTimeRemaining() > 0 then
+        Warning("Bot tried to use ability still on cooldown")
+        return false
+    end
+    eAbility:StartCooldown(eAbility:GetCooldown(level))
+    eAbility:PayManaCost()
+    eAbility:OnSpellStart()
+    return true
+end
+
 function Dota2AI:UseAbility(eHero, eAbility)
     local level = eAbility:GetLevel()
     local manaCost = eAbility:GetManaCost(level)
     local player = eHero:GetPlayerOwnerID()
     local behavior = eAbility:GetBehavior()
 
-    if (BitAND(behavior, DOTA_ABILITY_BEHAVIOR_TOGGLE)) then
-        eAbility:StartCooldown(eAbility:GetCooldown(level))
-        eAbility:PayManaCost()
-        eAbility:OnSpellStart()
-        print("Fire i nthe ohole")
-        eAbility:OnToggle()
-
-    elseif eHero:GetMana() < manaCost then
+    if eHero:GetMana() < manaCost then
         Warning("Bot tried to use ability without mana")
     elseif eAbility:GetCooldownTimeRemaining() > 0 then
         Warning("Bot tried to use ability still on cooldown")
