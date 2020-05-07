@@ -27,7 +27,7 @@ function Dota2AI:ParseHeroCommand(eHero, result)
         Warning("active not null")
         return
     end
-
+    print(result)
     if command == "MOVE" then
         self:MoveTo(eHero, result)
     elseif command == "LEVELUP" then
@@ -45,23 +45,23 @@ function Dota2AI:ParseHeroCommand(eHero, result)
     elseif command == "NOOP" then
         self:Noop(eHero, result)
     elseif command == "CAST_ABILITY_TOGGLE" then
-        self.CastAbilityToggle(eHero, result)
+        self:CastAbilityToggle(eHero, result)
     elseif command == "CAST_ABILITY_NO_TARGET" then
-        self.CastAbilityNoTarget(eHero, result)
+        self:CastAbilityNoTarget(eHero, result)
     elseif command == "CAST_ABILITY_TARGET_POINT" then
-        self.CastAbilityTargetPoint(eHero, result)
+        self:CastAbilityTargetPoint(eHero, result)
     elseif command == "CAST_ABILITY_TARGET_AREA" then
-        self.CastAbilityTargetArea(eHero, result)
+        self:CastAbilityTargetArea(eHero, result)
     elseif command == "CAST_ABILITY_TARGET_UNIT" then
-        self.CastAbilityTargetUnit(eHero, result)
+        self:CastAbilityTargetUnit(eHero, result)
     elseif command == "CAST_ABILITY_VECTOR_TARGETING" then
-        self.CastAbilityVectorTargeting(eHero, result)
+        self:CastAbilityVectorTargeting(eHero, result)
     elseif command == "CAST_ABILITY_TARGET_UNIT_AOE" then
-        self.CastAbilityTargetUnitAOE(eHero, result)
+        self:CastAbilityTargetUnitAOE(eHero, result)
     elseif command == "CAST_ABILITY_TARGET_COMBO_TARGET_POINT_UNIT" then
-        self.CastAbilityComboTargetPointUnit(eHero, result)
+        self:CastAbilityComboTargetPointUnit(eHero, result)
     else
-        self._Error = true
+        self.Error = true
         Warning(eHero:GetName() .. " sent invalid command " .. reply)
     end
 end
@@ -268,8 +268,6 @@ function Dota2AI:SetupAbility(eHero, eAbility)
         Warning("Bot tried to use ability still on cooldown")
         return false
     end
-    eAbility:StartCooldown(eAbility:GetCooldown(level))
-    eAbility:PayManaCost()
     eAbility:OnSpellStart()
     return true
 end
