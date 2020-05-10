@@ -268,7 +268,6 @@ function Dota2AI:SetupAbility(eHero, eAbility)
         Warning("Bot tried to use ability still on cooldown")
         return false
     end
-    eAbility:OnSpellStart()
     return true
 end
 
