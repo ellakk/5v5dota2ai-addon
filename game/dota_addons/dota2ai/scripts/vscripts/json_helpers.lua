@@ -53,6 +53,7 @@ function Dota2AI:JSONunit(eUnit)
     unit.team = eUnit:GetTeamNumber()
     unit.attackRange = eUnit:Script_GetAttackRange()
     unit.forwardVector = VectorToArray(eUnit:GetForwardVector())
+    unit.isAttacking = eUnit:IsAttacking()
 
     if eUnit:IsHero() then
         unit.hasTowerAggro = self:HasTowerAggro(eUnit)
