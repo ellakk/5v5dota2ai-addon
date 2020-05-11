@@ -207,7 +207,9 @@ function Dota2AI:GetStandingBuildings()
         "bad_rax_range_mid",
         "bad_rax_melee_top",
         "bad_rax_range_top",
-        "ent_dota_fountain_bad"
+        "ent_dota_fountain_bad",
+        "dota_goodguys_fort",
+        "dota_badguys_fort"
     }
     local buildings = {}
     local count = 0
