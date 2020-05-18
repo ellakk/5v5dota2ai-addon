@@ -20,3 +20,6 @@ Submit the framework to competitions held by organizations such as the conferenc
       Run the following command in vConsole dota_launch_custom_game dota2ai dota to launch the mod
 
 By performing these steps the framework will launch a game filled with bots of which the team good guys are controlled by example scripts that is included in the framework. The opposing team is controlled by in-game AI bots. You can find the example for controlling the bots in the Dota 2 AI framework/src folder. The example script currently shows a minimal bot implementation. Documentation regarding implementing more advanced features will be included. However by reading the code, a user should be able to implement a bot that can do anything possible in the game.
+
+## Future work
+Implement functionality that supports 5v5 matches where all bots are controlled by user developed scripts.
