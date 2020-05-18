@@ -1,4 +1,4 @@
-# The Dota2 AI Framework project
+# The DotA 2 AI 5v5 Framework project
 **General disclaimer: this project is not affiliated with Valve. It's an academic research project.** 
 ## About
 A 5v5 framework developed by Kalle Lindqvist and Dennis Nilsson, an extension of a previous 1v1 framework developed by Tobias Mahlmann.
