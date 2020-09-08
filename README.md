@@ -15,7 +15,7 @@ Submit the framework to competitions held by organizations such as the conferenc
       Copy the framework files located in the Dota2 AI Addon folder and put them in SteamLibrary/steamapps/common/dota 2 beta
       Run DotA 2 workshop tools, click play and select workshop tools
       Load the dota2ai project in the workshop tools
-      Run the Python client, start it by running framework.py in the Dota2 AI Framework folder (py framework.py in a command prompt/terminal)
+      Run the Python client, start it by running framework.py in the Dota2 AI Framework folder (python framework.py --bot <botclass> in a command prompt/terminal)
       Open vConsole in the workshop tool
       Run the following command in vConsole dota_launch_custom_game dota2ai dota to launch the mod
 
