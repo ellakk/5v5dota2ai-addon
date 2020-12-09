@@ -105,6 +105,7 @@ function Dota2AI:Update(hero)
         function(result)
             if result["StatusCode"] == 200 then
                 Dota2AI:ParseActions(hero, result["Body"])
+                Dota2AI:EndGameOnFirstTowerKill()
             else
                 Dota2AI.Error = true
                 for k, v in pairs(result) do

@@ -275,3 +275,36 @@ function Dota2AI:GetGoodGuys(eHero)
 
     return heroes
 end
+
+function Dota2AI:EndGameOnFirstTowerKill()
+    local towers = {         
+    "dota_badguys_tower1_bot",
+    "dota_badguys_tower1_mid",
+    "dota_badguys_tower1_top"
+    }
+    local time = Time()
+    for i, name in pairs(towers) do
+        local t = Entities:FindByName(nil, name)
+        if t:GetHealth() == 0 then
+            Warning(t:GetName() .. " has been destroyed after " .. tostring(time) .. " seconds. Radiant(you) wins")
+            SendToServerConsole("disconnect")
+        end
+    end
+
+    local goodGuystowers = {         
+        "dota_goodguys_tower1_bot",
+        "dota_goodguys_tower1_mid",
+        "dota_goodguys_tower1_top"
+    }
+    for i, name in pairs(goodGuystowers) do
+        local gt = Entities:FindByName(nil, name)
+        if gt:GetHealth() == 0 then
+            Warning(gt:GetName() .. " has been destroyed after " .. tostring(time) .. " seconds. Dire wins i.e. you lost")
+            SendToServerConsole("disconnect")
+        end
+    end
+    if time >= 1210 then 
+        Warning("You have lost, 20minutes has passed")
+        SendToServerConsole("disconnect")
+    end
+end
