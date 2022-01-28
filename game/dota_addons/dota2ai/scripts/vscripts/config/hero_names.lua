@@ -1,5 +1,5 @@
--- This list is to pick enemies. The player bot will be picked using a JSON query
-Dota2AI.sHeroSelection = {
+---@type string[]
+local hero_names = {
     "npc_dota_hero_abaddon",
     "npc_dota_hero_alchemist",
     "npc_dota_hero_antimage",
@@ -120,7 +120,5 @@ Dota2AI.sHeroSelection = {
     "npc_dota_hero_grimstroke",
     "npc_dota_hero_zuus"
 }
-Dota2AI.baseURL = "http://localhost:8080/Dota2AIService/api/service"
 
--- Set this to 0 to skip the configuration dialog
-Dota2AI.ConfigUITimeout = 0
+return hero_names
